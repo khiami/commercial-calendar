@@ -1,0 +1,43 @@
+<div class="calendar row m-0 px-2">
+
+    <!--  Calendar Header -->
+    <div class="calendar-header sticky">
+        <div class="calendar-header-seasons d-flex">
+            <div class="calendar-header-season col" *ngFor="let item of seasons;">{{ item }}</div>  
+        </div>
+        <div class="calendar-header-months d-flex">
+            <div class="calendar-header-month col" *ngFor="let item of months;">{{ item }}</div>  
+        </div>
+
+        <div class="calendar-header-weeks d-flex">
+            <div class="calendar-header-week week-size-col col p-0" *ngFor="let item of [].constructor(weeks); index as index">{{ index+1 }}</div>
+        </div>
+
+        <div class="calendar-header-month-length d-flex">
+            <month-length   *ngFor="let item of [].constructor(12); index as index" [year]="year" [month]="index" class="d-block"></month-length>
+        </div>
+    </div>
+
+
+    <!--  Calendar Body -->
+    <div class="calendar-body row d-flex flex-nowrap">
+
+        <!--  Vertical header (Sticky) -->
+        <div class="calendar-activities-header sticky col">
+            <div class="calendar-activity-header"   *ngFor="let item of types; index as index"
+                                                    css-var="calendar-activities-header:get:width"
+                                                    [disableVar]="index > 0"
+                                                    [ngClass]="'activity-type-' + item.code"
+            >
+                {{ item.name }}
+            </div>
+        </div>
+
+        <!-- Activities -->
+        <div class="calendar-activity week-size-col col p-0" *ngFor="let item of [].constructor(weeks); index as index">
+            {{ index+1 }}
+        </div>
+
+    </div>
+
+</div>

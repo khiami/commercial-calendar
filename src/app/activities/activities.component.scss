@@ -1,0 +1,138 @@
+.calendar {
+    padding: 1rem 0 5rem;
+}
+
+.calendar-header {
+    margin-left: calc(var(--calendar-activities-header) + 15px);
+    padding-top: 1rem;
+
+    &.sticky {
+        position: sticky;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        z-index: 2;
+    }
+}
+
+.calendar-header-months {
+    line-height: 2;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.calendar-header-month {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.calendar-header-weeks {
+    flex-flow: nowrap;
+    line-height: 3;
+    font-weight: bold;
+    font-size: .8rem;
+}
+
+
+.calendar-header-week {
+    text-align: center;
+}
+
+month-length {
+    height: 2px;
+    background: black;
+}
+
+
+.calendar-header-month-length {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: nowrap;
+}
+
+.calendar-activities-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    height: 100%;
+    min-height: 100rem;
+
+    line-height: 1.2;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: right;
+
+    &.sticky {
+        position: sticky;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        background: white;
+        z-index: 1;
+    }
+}
+
+
+
+.activity-type-brand-campaign,
+.activity-type-main-seasonal-campaign,
+.activity-type-promotional-moments,
+.activity-type-main-seasonal-campaign-product,
+.activity-type-block-support,
+.activity-type-hype {
+    min-height: 17rem;
+}
+
+.activity-type-consumer-moments .activity-type-commecial-moments,
+.activity-type-always-on-noos,
+.activity-type-poc,
+.activity-type-golf {
+    min-height: 8rem;
+}
+
+.calendar-activity-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+}
+
+.calendar-activity {
+    text-align: center;
+}
+
+.calendar-body {
+    margin-top: 1rem;
+}
+
+.week-size-col {
+    min-width: 5rem;
+}
+
+
+.calendar-header-seasons {
+    gap: 1rem;
+}
+
+.calendar-header-season {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    font-weight: bold;
+    font-style: italic;
+    text-transform: uppercase;
+    color: var(--season-text-color);
+
+    &:not(:last-child) {
+        &:after {
+            content: '';
+            position: absolute;
+            right: 0;
+            width: 2px;
+            height: 100%;
+            background: var(--season-text-color);
+        }
+    }
+}
