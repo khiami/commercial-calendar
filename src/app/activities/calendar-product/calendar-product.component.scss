@@ -1,0 +1,8 @@
+.calendar-product {
+    max-width: var(--week-col-size);
+    aspect-ratio: 1;
+}
+
+.product-attribute {
+    font-size: calc(var(--week-col-size) / 14);
+}
