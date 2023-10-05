@@ -5,12 +5,12 @@ import { ActivitiesComponent } from './activities/activities.component';
 
 const routes: Routes = [
   {
-    path: 'calendar',
+    path: 'calendar/:id',
     component: ActivitiesComponent,
   },
   {
     path: '**',
-    redirectTo: 'calendar',
+    redirectTo: 'calendar/1',
     pathMatch: 'full',
   }
 ];

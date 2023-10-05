@@ -23,7 +23,7 @@
     <div class="calendar-body row d-flex flex-nowrap">
 
         <!--  Vertical header (Sticky) -->
-        <div class="calendar-activities-header sticky col">
+        <div class="calendar-activities-header sticky flex-with-gap">
             <div class="calendar-activity-header"   *ngFor="let item of types; index as index"
                                                     css-var="calendar-activities-header:get:width"
                                                     [disableVar]="index > 0"
@@ -34,8 +34,24 @@
         </div>
 
         <!-- Activities -->
-        <div class="calendar-activity week-size-col col p-0" *ngFor="let item of [].constructor(weeks); index as index">
-            {{ index+1 }}
+        <div class="calendar-activity-group week-size-col col p-0" *ngFor="let week of [].constructor(weeks); index as weekIdx">
+            <div class="calendar-placeholders flex-with-gap">
+                <div class="calendar-placeholder"   *ngFor="let type of types; index as typeIdx"
+                                                    [ngClass]="'activity-type-' + type.code"
+                                                    [attr.data-length]="(activities!|findx:'startWeek':weekIdx+1:true)?.length"
+                >
+                    <ng-container *ngIf="activities!|findx:'startWeek':weekIdx+1 as activity">
+                        <ng-container *ngIf="activity.activityTypeId == type.id">
+                            <calendar-activity  [activity]="activity" class="position-relative d-flex w-100"
+                                                [width]="(activity.endWeek - activity.startWeek) * ('week-col-size'|cssVariable) - 4"
+                                                (onClick)="activityClicked($event)"
+                            >
+                            </calendar-activity>
+                        </ng-container>
+                    </ng-container>
+                    
+                </div>
+            </div>
         </div>
 
     </div>

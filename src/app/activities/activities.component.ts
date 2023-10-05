@@ -2,6 +2,8 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/co
 import { getISOWeeksInYear } from 'date-fns';
 import { types } from './types.data';
 import { triggerWindowResize } from '../helpers';
+import { data } from './activities.data';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'calendar-activities',
@@ -10,6 +12,8 @@ import { triggerWindowResize } from '../helpers';
 })
 export class ActivitiesComponent implements OnInit, AfterViewInit {
 
+  private data: any[] = data;
+  public activities?: any[];
   public readonly seasons = [
     'Winter',
     'Spring',
@@ -37,17 +41,25 @@ export class ActivitiesComponent implements OnInit, AfterViewInit {
   public weeks = getISOWeeksInYear(new Date());
 
   constructor(
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    // private route: ActivatedRoute
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+
+    // let {id} = this.route.snapshot.params??{};
+    // let calendar = data.find(a=> a.id == +id);
+    this.activities = data;
 
   }
   
   ngAfterViewInit(): void {
     
-    // setTimeout(()=> this.cdr.markForCheck(), 200);
-    triggerWindowResize()
+    triggerWindowResize();
+  }
+
+  public activityClicked(item: any) {
+    console.log('activityClicked ', item);
   }
 
 

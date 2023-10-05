@@ -1,9 +1,9 @@
 .calendar {
-    padding: 1rem 0 5rem;
+    padding: 0 0 5rem;
 }
 
 .calendar-header {
-    margin-left: calc(var(--calendar-activities-header) + 15px);
+    margin-left: calc(var(--calendar-activities-header) + 1.125rem);
     padding-top: 1rem;
 
     &.sticky {
@@ -55,6 +55,8 @@ month-length {
     display: flex;
     flex-direction: column;
     justify-content: stretch;
+    padding: 0 1rem;
+    max-width: 8rem;
     height: 100%;
     min-height: 100rem;
 
@@ -67,14 +69,12 @@ month-length {
     &.sticky {
         position: sticky;
         top: 0;
-        left: 0;
+        left: -1rem;
         bottom: 0;
         background: white;
         z-index: 1;
     }
 }
-
-
 
 .activity-type-brand-campaign,
 .activity-type-main-seasonal-campaign,
@@ -99,7 +99,7 @@ month-length {
     height: 100%;
 }
 
-.calendar-activity {
+.calendar-activity-group {
     text-align: center;
 }
 
@@ -108,12 +108,7 @@ month-length {
 }
 
 .week-size-col {
-    min-width: 5rem;
-}
-
-
-.calendar-header-seasons {
-    gap: 1rem;
+    min-width: var(--week-col-size);
 }
 
 .calendar-header-season {
@@ -135,4 +130,23 @@ month-length {
             background: var(--season-text-color);
         }
     }
+}
+
+.flex-with-gap {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+.calendar-placeholder {
+    display: flex;
+
+    &.activity-type-main-seasonal-campaign,
+    &.activity-type-brand-campaign {
+        background: #DBC5B8;
+    }
+}
+
+calendar-activity {
+    background: white;
 }
