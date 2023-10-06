@@ -15,7 +15,10 @@ export class CalendarZoomComponent implements OnInit, OnDestroy {
   @Output() onChange: EventEmitter<any> = new EventEmitter();
 
   public range?: FormControl;
-  private destroy$: Subject<void>
+  private destroy$: Subject<void>;
+
+  public readonly min: number = 1;
+  public readonly max: number = 15;
 
   constructor() {
     this.destroy$ = new Subject();
@@ -25,9 +28,11 @@ export class CalendarZoomComponent implements OnInit, OnDestroy {
 
     this.range = new FormControl(this.level??0);
     this.range.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(value=> {
-		console.log('value ');
-		this.onChange.emit(value);
-	});    
+
+      value = cap(value, this.min, this.max);
+      this.range?.patchValue(value, { emitEvent: false });
+      this.onChange.emit(value);
+    });    
   }
 
   ngOnDestroy(): void {
@@ -37,9 +42,8 @@ export class CalendarZoomComponent implements OnInit, OnDestroy {
 
   public updateValue(diff: number): void {
     let value = this.range?.value ?? this.level ?? 0;
-    value += diff;
-    value = cap(value, 0, 10);
-    this.range?.patchValue(value);
+    // value = cap(value, 0, 10);
+    this.range?.patchValue(value += diff);
   }
 
 }

@@ -56,6 +56,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit {
     this.loadTypes();
     this.loadData();
 
+    this.zoomChanged();
   }
   
   ngAfterViewInit(): void {
@@ -63,7 +64,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit {
   }
 
   private async loadTypes() {
-    let res: any = await this.http.get('http://localhost:4200/api/commercial-calendar-activity-types/', { 
+    let res: any = await this.http.get('http://localhost:4200/api/commercial-calendar-activity-types/?sort=position,ASC', { 
       observe: 'body',
     }).toPromise();
 
@@ -88,12 +89,9 @@ export class ActivitiesComponent implements OnInit, AfterViewInit {
     console.log('activityClicked ', item);
   }
 
-  public zoomChanged(level: number): void {
-    this.zoomLevel = level;
+  public zoomChanged(level?: number): void {
+    if (level) this.zoomLevel = level;
     this.colSize = this.baseColSize + (this.baseColSize * this.zoomLevel/10);
-    
-    console.log('co size ', this.colSize);
-
     setTimeout(()=> this.cdr.markForCheck);
   }
 

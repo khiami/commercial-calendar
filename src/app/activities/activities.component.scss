@@ -90,22 +90,22 @@ month-length {
     top: 0;
 }
 
-.activity-type-brand-campaign,
-.activity-type-main-seasonal-campaign,
-.activity-type-promotional-moments,
-.activity-type-main-seasonal-campaign-product,
-.activity-type-block-support,
-.activity-type-hype {
-    min-height: 17rem;
-}
+// .activity-type-brand-campaign,
+// .activity-type-main-seasonal-campaign,
+// .activity-type-promotional-moments,
+// .activity-type-main-seasonal-campaign-product,
+// .activity-type-block-support,
+// .activity-type-hype {
+//     min-height: 17rem;
+// }
 
-.activity-type-consumer-moments,
-.activity-type-commecial-moments,
-.activity-type-always-on-noos,
-.activity-type-poc,
-.activity-type-golf {
-    min-height: 8rem;
-}
+// .activity-type-consumer-moments,
+// .activity-type-commecial-moments,
+// .activity-type-always-on-noos,
+// .activity-type-poc,
+// .activity-type-golf {
+//     min-height: 8rem;
+// }
 
 .calendar-activity-header {
     display: flex;
@@ -131,7 +131,7 @@ month-length {
 
 .week-size-col {
     // min-width: var(--week-col-size);
-    transition: min-width .4s;
+    transition: min-width 1s;
 }
 
 .calendar-header-season {

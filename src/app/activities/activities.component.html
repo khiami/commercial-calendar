@@ -36,12 +36,13 @@
 
         <!--  Vertical header (Sticky) -->
         <div class="calendar-activities-header horizontal-sticky flex-with-gap">
-            <div class="calendar-activity-header vertical-sticky"   *ngFor="let item of types; index as index"
+            <div class="calendar-activity-header vertical-sticky"   *ngFor="let type of types; index as index"
                                                                     css-var="calendar-activities-header:get:width"
                                                                     [disableVar]="index > 0"
-                                                                    [ngClass]="'activity-type-' + item.code"
+                                                                    [ngClass]="'activity-type-' + type.code"
+                                                                    [style.min-height.px]="colSize * (type.data?.large ? 5:2)"
             >
-                {{ item.name }}
+                {{ type.name }}
             </div>
         </div>
 
@@ -52,6 +53,7 @@
             <div class="calendar-placeholders flex-with-gap">
                 <div class="calendar-placeholder"   *ngFor="let type of types; index as typeIdx"    
                                                     [ngClass]="'activity-type-' + type.code"
+                                                    [style.min-height.px]="colSize * (type.data?.large ? 5:2)"
                                                     [class.has-activity]="(activities!|findxv2:[{key:'startWeek',value:weekIdx+1},{key:'activityTypeId',value:type.id}]) != undefined"
                 >
 
@@ -74,10 +76,10 @@
         </div>
 
     </div>
-</div>
 
-<!--  Zoom control -->
-<calendar-zoom  [level]="zoomLevel"
-                (onChange)="zoomChanged($event)"
->
-</calendar-zoom>
+    <!--  Zoom control -->
+    <calendar-zoom  [level]="zoomLevel"
+                    (onChange)="zoomChanged($event)"
+    >
+    </calendar-zoom>
+</div>
