@@ -15,7 +15,7 @@ html.debug {
 }
 
 .calendar-activity {
-    &.custom-size {
+    &.custom-style {
         .activity-name {
             font-size: 1.2rem;
             text-align: center;
@@ -35,7 +35,7 @@ html.debug {
         }
     }
 
-    &:not(.custom-size) {
+    &:not(.custom-style) {
         .activity-tagline,
         .activity-name {
             margin-bottom: .2rem;

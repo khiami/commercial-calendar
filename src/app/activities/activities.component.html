@@ -63,7 +63,8 @@
                     >
                             <ng-container *ngFor="let item of items; index as activityIdx">
                                 <calendar-activity  [activity]="item" class="calendar-activity"
-                                                    [class.custom-size]="item.fillColor?.length || item.color?.length"
+                                                    [class.custom-style]="item.fillColor?.length"
+                                                    [style.border-color]="item.color"
                                                     [style.background-color]="item.fillColor"
                                                     [style.width.px]="(item.endWeek - item.startWeek) * colSize - 4"
                                                     (onClick)="activityClicked($event)"
