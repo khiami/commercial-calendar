@@ -12,7 +12,7 @@
         left: 0;
         right: 0;
         background: white;
-        z-index: 2;
+        z-index: 11 * 52 +1;
     }
 }
 
@@ -79,6 +79,16 @@ month-length {
     }
 }
 
+.horizontal-sticky {
+    position: sticky;
+    left: 0;
+}
+
+.vertical-sticky {
+    position: sticky;
+    top: 0;
+}
+
 .activity-type-brand-campaign,
 .activity-type-main-seasonal-campaign,
 .activity-type-promotional-moments,
@@ -101,7 +111,9 @@ month-length {
     justify-content: flex-end;
     align-items: center;
     height: 100%;
+    background-color: white;
 }
+
 .calendar-body {
     margin-top: 1rem;
 }
@@ -112,12 +124,12 @@ month-length {
 
 .calendar-header-season {
     display: flex;
-    position: relative;
     justify-content: center;
     font-weight: bold;
     font-style: italic;
     text-transform: uppercase;
     color: var(--season-text-color);
+    background-color: white;
 
     &:not(:last-child) {
         &:after {
@@ -166,7 +178,7 @@ month-length {
     width: 100%;
     background-color: white;
     padding: 0 0 0.5rem;
-    
+
     &:after {
         content: '';
         position: absolute;

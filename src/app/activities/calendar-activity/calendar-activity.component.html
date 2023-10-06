@@ -3,6 +3,7 @@
 <div class="calendar-products row p-0 m-0">
     <calendar-product   *ngFor="let product of activity?.products;" class="calendar-product"
                         [product]="product"
+                        (onClick)="onClick.emit($event)"
     >
     </calendar-product>
 </div>

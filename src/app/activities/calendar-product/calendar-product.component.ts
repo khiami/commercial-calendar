@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'calendar-product',
@@ -9,9 +9,16 @@ export class CalendarProductComponent implements OnInit {
 
   @Input() product?: any;
   
+  @Output() onClick: EventEmitter<any> = new EventEmitter();
+  
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  @HostListener('click')
+  private productClicked() {
+    this.onClick.emit(this.product);
   }
 
 }
