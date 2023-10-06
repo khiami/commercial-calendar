@@ -25,6 +25,9 @@
 .calendar-header-month {
     font-size: 1.5rem;
     text-align: center;
+    position: sticky;
+    left: 0;
+    background: white;
 }
 
 .calendar-header-weeks {
@@ -99,13 +102,6 @@ month-length {
     align-items: center;
     height: 100%;
 }
-
-.calendar-activity-group {
-    position: relative;
-    text-align: center;
-    z-index: 0;
-}
-
 .calendar-body {
     margin-top: 1rem;
 }
@@ -184,4 +180,18 @@ month-length {
         z-index: 1;
         pointer-events: none;
     }
+}
+
+.calendar-activity-group {
+    // position: relative;
+    text-align: center;
+    // z-index: 0;
+}
+
+
+.has-activity {
+    position: relative;
+    z-index: calc(11 * 52); // types * weeks
+    isolation: isolate;
+
 }

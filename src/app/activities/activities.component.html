@@ -6,7 +6,11 @@
             <div class="calendar-header-season col" *ngFor="let item of seasons;">{{ item }}</div>  
         </div>
         <div class="calendar-header-months d-flex">
-            <div class="calendar-header-month col" *ngFor="let item of months;">{{ item }}</div>  
+            <div class="calendar-header-month col"  *ngFor="let item of months; index as monthIdx"
+                                                    [style.zIndex]="monthIdx"
+            >
+                {{ item }}
+            </div>  
         </div>
 
         <div class="calendar-header-weeks d-flex">
@@ -38,7 +42,7 @@
             <div class="calendar-placeholders flex-with-gap">
                 <div class="calendar-placeholder"   *ngFor="let type of types; index as typeIdx"    
                                                     [ngClass]="'activity-type-' + type.code"
-                                                    [class.has-activity]="(activities!|findxv2:[{key:'startWeek',value:weekIdx+1},{key:'activityTypeId',value:type.id}]:true) != undefined"
+                                                    [class.has-activity]="(activities!|findxv2:[{key:'startWeek',value:weekIdx+1},{key:'activityTypeId',value:type.id}]) != undefined"
                 >
 
                     <!--  Week with Activities -->
