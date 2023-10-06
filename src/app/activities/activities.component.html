@@ -18,7 +18,11 @@
         </div>
 
         <div class="calendar-header-month-length d-flex">
-            <month-length   *ngFor="let item of [].constructor(12); index as index" [year]="year" [month]="index" class="d-block"></month-length>
+            <month-length   *ngFor="let item of [].constructor(12); index as index" class="d-block"
+                            [year]="year" 
+                            [month]="index"
+            >
+            </month-length>
         </div>
     </div>
 
