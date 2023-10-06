@@ -8,6 +8,7 @@ import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@a
 export class CalendarProductComponent implements OnInit {
 
   @Input() product?: any;
+  @Input() colSize!: number;
   
   @Output() onClick: EventEmitter<any> = new EventEmitter();
   

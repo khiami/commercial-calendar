@@ -50,11 +50,11 @@ export function encapsulateFilesInFormData(files: FileList, key: string): FormDa
 
     Array
         .from(files)
-        .forEach((file, i)=>
+        .forEach((file, i) =>
             formData.append(
                 !activateCounting ?
-                    key:
-                    `${key}-${i+1}`, file));
+                    key :
+                    `${key}-${i + 1}`, file));
 
     return formData;
 
@@ -62,7 +62,7 @@ export function encapsulateFilesInFormData(files: FileList, key: string): FormDa
 
 export function removeBreakAndSpaces(value: string): string {
     return !value?.length || value === '' ?
-        '':
+        '' :
         value.trim().replace(/\n\s{2,}/gm, '');
 }
 
@@ -71,10 +71,10 @@ export const responsiveImageMediaQueryRegex: RegExp = /(\([max|min|orientation].
 
 export function queryImageDimenions(url: string, natural?: boolean): Promise<{ width: number, height: number }> {
 
-    return new Promise((resolve, reject)=> {
+    return new Promise((resolve, reject) => {
 
         const divId = generateRandomText();
-        const div = document.createElement( 'DIV' );
+        const div = document.createElement('DIV');
 
         // referenced to be removed later
         div.id = divId;
@@ -88,21 +88,21 @@ export function queryImageDimenions(url: string, natural?: boolean): Promise<{ w
         img.id = generateRandomText();
         img.src = url;
         img.style.display = 'block';
-        img.onload = e=> {
+        img.onload = e => {
 
             let element: HTMLImageElement = e.target as HTMLImageElement;
-            let { offsetWidth: width, offsetHeight: height } = element||<HTMLImageElement>{};
+            let { offsetWidth: width, offsetHeight: height } = element || <HTMLImageElement>{};
 
             if (natural) {
                 width = element.naturalWidth;
                 height = element.naturalHeight;
             }
 
-            document.getElementById( divId )?.remove();
+            document.getElementById(divId)?.remove();
             return resolve({ width, height });
         }
 
-        img.onerror = e=>
+        img.onerror = e =>
             reject(e);
 
         // append image to div
@@ -143,8 +143,8 @@ export function whenElement(selector: string): Promise<HTMLElement> {
 
 export function untilEvent(event: string): Promise<any> {
 
-    return new Promise(resolve=>
-        window.addEventListener(event, (e: any)=>
+    return new Promise(resolve =>
+        window.addEventListener(event, (e: any) =>
             resolve(e?.detail)));
 }
 
@@ -163,13 +163,13 @@ export interface InjectScriptTagInterface {
 
 export function injectScriptTag(resourceUrl: string, opts?: InjectScriptTagInterface) {
 
-    const { isAsync, tagId, idPrefix } = opts||{};
+    const { isAsync, tagId, idPrefix } = opts || {};
     const el: HTMLScriptElement = document.createElement('SCRIPT') as HTMLScriptElement;
 
     el.src = resourceUrl;
-    el.id = tagId || (idPrefix ? `${idPrefix}-${generateRandomText()}`:generateRandomText());
+    el.id = tagId || (idPrefix ? `${idPrefix}-${generateRandomText()}` : generateRandomText());
 
-    if ( isAsync ) el.async = true;
+    if (isAsync) el.async = true;
 
     document.head.appendChild(el);
 
@@ -183,15 +183,15 @@ export function supportWistiaPopover(page: string): string {
 
     try {
 
-        return page.slice().replace(wistiaIframeTagRegex, m=> {
+        return page.slice().replace(wistiaIframeTagRegex, m => {
 
-            const [ _, videoId ] = m.match(wistiaVideoIdRegex)||[];
+            const [_, videoId] = m.match(wistiaVideoIdRegex) || [];
 
             //return m.replace(m, `${m}<span class="wistia_embed wistia_async_${videoId} popover=true popoverContent=link"><button></button></span>`);
             return `<div class="wistia_embed wistia_async_${videoId} embed-responsive-item"></div>`;
         });
 
-    } catch(e) { return page }
+    } catch (e) { return page }
 
 }
 
@@ -204,7 +204,7 @@ export function triggerWindowResize() {
 
         return window.dispatchEvent(resizeEvent);
 
-    } catch(e) {
+    } catch (e) {
         // for modern browsers
         return window.dispatchEvent(new Event('resize'));
     }
@@ -248,18 +248,18 @@ export function reduceProperties(object: any, brackets: ReduceProperty[], matchi
         if (brackets?.length) {
             try {
                 // todo map multiple values if brackets[n][property] is an array
-                return brackets.reduce((a, c)=> {
+                return brackets.reduce((a, c) => {
 
-                    let { property, as, collection=[], collectionProperty } = c||{};
-                    let found = collection?.find(a=> a[matchingAttribute||'id'] === object[property])||{};
+                    let { property, as, collection = [], collectionProperty } = c || {};
+                    let found = collection?.find(a => a[matchingAttribute || 'id'] === object[property]) || {};
 
                     return {
                         ...a,
-                        [as||property]: found[collectionProperty],
+                        [as || property]: found[collectionProperty],
                     }
                 }, object);
-            } catch(e) { 
-                return object 
+            } catch (e) {
+                return object
             };
         }
     }
@@ -279,25 +279,25 @@ export function setCookie(name: string, value: any, days: number): void {
     let expires = '';
     if (days) {
         let date = new Date();
-        date.setTime(date.getTime() + (days*24*60*60*1000));
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
         expires = "; expires=" + date.toUTCString();
     }
-    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    document.cookie = name + "=" + (value || "") + expires + "; path=/";
 }
 
-export function getCookie(name: string): string|null {
+export function getCookie(name: string): string | null {
     let nameEQ = name + "=";
     let ca = document.cookie.split(';');
-    for(let i=0;i < ca.length;i++) {
+    for (let i = 0; i < ca.length; i++) {
         let c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
     }
     return null;
 }
 
 export function arrayInt(length: number): Array<number> {
-    return Array.from({ length }).map((_, index)=> index);
+    return Array.from({ length }).map((_, index) => index);
 }
 
 export function shuffleArray(array: any[]): any[] {
@@ -328,33 +328,33 @@ export function elementHeightInViewport(item: HTMLElement, parent: HTMLElement):
     let elH = item.clientHeight;
     let H = parent.clientHeight ?? innerHeight;
     let r = item.getBoundingClientRect();
-    let t=r.top;
-    let b=r.bottom;
+    let t = r.top;
+    let b = r.bottom;
 
-    return Math.max(0, t>0? Math.min(elH, H-t) : Math.min(b, H));
+    return Math.max(0, t > 0 ? Math.min(elH, H - t) : Math.min(b, H));
 };
 
 export function getAttributeOf(item: HTMLElement, attr: string, defaultValue: number): number {
     let value: any = item.dataset[attr] ?? defaultValue;
     try {
         if (!isNil(attr)) value = parseFloat(value);
-    } catch(e) {value = defaultValue}
+    } catch (e) { value = defaultValue }
     return value;
 }
 
 export function dispatchEvent(key: string, detail?: any, el?: any) {
-    return (el||window).dispatchEvent(new CustomEvent(key, { detail }));
+    return (el || window).dispatchEvent(new CustomEvent(key, { detail }));
 }
 
 export function getRandomInt(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 
 export function arrayTransformLastIsFirst(a: any[]): any[] {
 
     let b = a.slice();
-    b = [...b.slice(-1), ...b.slice(0, b.length-1)];
+    b = [...b.slice(-1), ...b.slice(0, b.length - 1)];
 
     return b
 }
@@ -366,10 +366,10 @@ export function queryVideoAspectRatio(url: string, dimensions?: boolean): Promis
     height: number
 }> {
 
-    return new Promise((resolve, reject)=> {
+    return new Promise((resolve, reject) => {
 
         const divId = generateRandomText();
-        const div = document.createElement( 'DIV' );
+        const div = document.createElement('DIV');
 
         // referenced to be removed later
         div.id = divId;
@@ -383,21 +383,21 @@ export function queryVideoAspectRatio(url: string, dimensions?: boolean): Promis
         video.id = generateRandomText();
         video.src = url;
         video.style.display = 'block';
-        video.onloadeddata = e=> {
+        video.onloadeddata = e => {
 
             let element: HTMLVideoElement = e.target as HTMLVideoElement;
             let width = element.videoWidth;
             let height = element.videoHeight;
 
-            document.getElementById( divId )?.remove();
+            document.getElementById(divId)?.remove();
             return resolve({
                 width,
                 height,
-                ratio: (width/height).toFixed(1),
+                ratio: (width / height).toFixed(1),
             });
         }
 
-        video.onerror = e=>
+        video.onerror = e =>
             reject(e);
 
         // append image to div
@@ -418,40 +418,40 @@ export function isChinaOrigin(): boolean {
 export function generateFragmentedDocument(content: string): any {
 
     try {
-  
-      let fragment = document.createDocumentFragment();
-      let body = document.createElement('body');
-      
-      // define body
-      fragment.appendChild(body);
-      
-      // load page markup
-      body.innerHTML = content;
-  
-      return body;
-    } catch(e) { return null };
+
+        let fragment = document.createDocumentFragment();
+        let body = document.createElement('body');
+
+        // define body
+        fragment.appendChild(body);
+
+        // load page markup
+        body.innerHTML = content;
+
+        return body;
+    } catch (e) { return null };
 }
 
 export function handle(value: string): string {
 
-  let str = (value||0).toString().toLowerCase();
-  const toReplace: string[] = ['"', "'", "\\", "(", ")", "[", "]"];
-  
-  // For the old browsers
-  for (let i = 0; i < toReplace.length; ++i) {
-    str = str.replace(toReplace[i], '');
-  }
+    let str = (value || 0).toString().toLowerCase();
+    const toReplace: string[] = ['"', "'", "\\", "(", ")", "[", "]"];
 
-  str = str.replace(/\W+/g, '-');
+    // For the old browsers
+    for (let i = 0; i < toReplace.length; ++i) {
+        str = str.replace(toReplace[i], '');
+    }
 
-  if (str.charAt(str.length - 1) == '-') {
-    str = str.replace(/-+\z/, '');
-  }
+    str = str.replace(/\W+/g, '-');
 
-  if (str.charAt(0) === '-') {
-    str = str.replace(/\A-+/, '');
-  }
-  return str;
+    if (str.charAt(str.length - 1) == '-') {
+        str = str.replace(/-+\z/, '');
+    }
+
+    if (str.charAt(0) === '-') {
+        str = str.replace(/\A-+/, '');
+    }
+    return str;
 }
 
 export function titleCase(item: string): string {
@@ -461,29 +461,29 @@ export function titleCase(item: string): string {
 export function ratioCalculator(ratio: string, base: number): number {
     let f = 0;
     if (ratio?.length) {
-      if (ratio.match('1x1')) {
-        f = base;
-      } else if (ratio.match('2x1')) {
-        f = Math.floor(base / 2);
-      } else if (ratio.match('16x9')) {
-        f = Math.floor(base / 16 * 9);
-      } else if (ratio.match('4x5')) {
-        f = Math.floor(base / 4 * 5);
-      } else if (ratio.match('5x4')) {
-        f = Math.floor(base / 5 * 4);
-      } else if (ratio.match('9x16')) {
-        f = Math.floor(base / 9 * 16);
-      } else if (ratio.match('1x2')) {
-        f = Math.floor(base / 1 * 2);
-      } else if (ratio.match('21x9')) {
-        f = Math.floor(base / 21 * 9);
-      } else if (ratio.match('9x21')) {
-        f = Math.floor(base / 9 * 21);
-      } else if (ratio.match('4x3')) {
-        f = Math.floor(base / 4 * 3);
-      } else if (ratio.match('3x4')) {
-        f = Math.floor(base / 3 * 4);
-      }
+        if (ratio.match('1x1')) {
+            f = base;
+        } else if (ratio.match('2x1')) {
+            f = Math.floor(base / 2);
+        } else if (ratio.match('16x9')) {
+            f = Math.floor(base / 16 * 9);
+        } else if (ratio.match('4x5')) {
+            f = Math.floor(base / 4 * 5);
+        } else if (ratio.match('5x4')) {
+            f = Math.floor(base / 5 * 4);
+        } else if (ratio.match('9x16')) {
+            f = Math.floor(base / 9 * 16);
+        } else if (ratio.match('1x2')) {
+            f = Math.floor(base / 1 * 2);
+        } else if (ratio.match('21x9')) {
+            f = Math.floor(base / 21 * 9);
+        } else if (ratio.match('9x21')) {
+            f = Math.floor(base / 9 * 21);
+        } else if (ratio.match('4x3')) {
+            f = Math.floor(base / 4 * 3);
+        } else if (ratio.match('3x4')) {
+            f = Math.floor(base / 3 * 4);
+        }
     }
     return f;
 }
@@ -522,4 +522,14 @@ export function getCssInt(context: any, ...args: any): any {
 
 export function getCssVariable(context: any, cssVariable: any): string {
     return (getCss(context) as CSSStyleDeclaration)?.getPropertyValue(cssVariable);
+}
+
+
+// keep nunber in range []
+// x should be between 10 - 100
+export function cap(x: number, min?: number, max?: number): number {
+    let p = x;
+    if (min && p < min) p = min;
+    if (max && p > max) p = max;
+    return p;
 }

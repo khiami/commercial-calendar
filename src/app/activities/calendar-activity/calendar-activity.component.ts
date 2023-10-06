@@ -8,6 +8,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 export class CalendarActivityComponent {
 
     @Input() public activity: any;
+    @Input() public colSize!: number;
 
     @Output() public onClick: EventEmitter<any> = new EventEmitter();
 

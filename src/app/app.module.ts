@@ -14,6 +14,8 @@ import { FindXPipe } from './pipes/find-x.pipe';
 import { CssVarPipe } from './pipes/css-var.pipe';
 import {HttpClientModule} from '@angular/common/http';
 import { Findxv2Pipe } from './pipes/findxv2.pipe';
+import { CalendarZoomComponent } from './activities/calendar-zoom/calendar-zoom.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -27,13 +29,17 @@ import { Findxv2Pipe } from './pipes/findxv2.pipe';
     FindXPipe,
     CssVarPipe,
     Findxv2Pipe,
+    CalendarZoomComponent,
   ],
   imports: [
     CommonModule,
     BrowserModule,
     AppRoutingModule,
     RouterModule,
-    HttpClientModule
+    HttpClientModule,
+
+    ReactiveFormsModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

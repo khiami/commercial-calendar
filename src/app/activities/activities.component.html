@@ -14,7 +14,11 @@
         </div>
 
         <div class="calendar-header-weeks d-flex">
-            <div class="calendar-header-week week-size-col col p-0" *ngFor="let item of [].constructor(weeks); index as index">{{ index+1 }}</div>
+            <div class="calendar-header-week week-size-col col p-0" *ngFor="let item of [].constructor(weeks); index as index"
+                                                                    [style.min-width.px]="colSize"
+            >
+                {{ index+1 }}
+            </div>
         </div>
 
         <div class="calendar-header-month-length d-flex">
@@ -42,7 +46,9 @@
         </div>
 
         <!-- Activities per Week -->
-        <div class="calendar-activity-group week-size-col col p-0" *ngFor="let week of [].constructor(weeks); index as weekIdx">
+        <div class="calendar-activity-group week-size-col col p-0"  *ngFor="let week of [].constructor(weeks); index as weekIdx"
+                                                                    [style.min-width.px]="colSize"
+        >
             <div class="calendar-placeholders flex-with-gap">
                 <div class="calendar-placeholder"   *ngFor="let type of types; index as typeIdx"    
                                                     [ngClass]="'activity-type-' + type.code"
@@ -55,8 +61,9 @@
                     >
                             <ng-container *ngFor="let item of items; index as activityIdx">
                                 <calendar-activity  [activity]="item" class="calendar-activity"
-                                                    [style.width.px]="(item.endWeek - item.startWeek) * ('week-col-size'|cssVariable) - 4"
+                                                    [style.width.px]="(item.endWeek - item.startWeek) * colSize - 4"
                                                     (onClick)="activityClicked($event)"
+                                                    [colSize]="colSize"
                                 >
                                 </calendar-activity>
                             </ng-container>
@@ -68,3 +75,9 @@
 
     </div>
 </div>
+
+<!--  Zoom control -->
+<calendar-zoom  [level]="zoomLevel"
+                (onChange)="zoomChanged($event)"
+>
+</calendar-zoom>

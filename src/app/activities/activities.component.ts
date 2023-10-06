@@ -36,6 +36,11 @@ export class ActivitiesComponent implements OnInit, AfterViewInit {
   public activities?: any[];
   public types?: any[];
 
+  public zoomLevel: number = 1;
+
+  public readonly baseColSize: number = 5 * 16;
+  public colSize: number = 5 * 16;
+
   public year = new Date().getFullYear();
   public weeks = getISOWeeksInYear(new Date());
 
@@ -81,6 +86,15 @@ export class ActivitiesComponent implements OnInit, AfterViewInit {
 
   public activityClicked(item: any) {
     console.log('activityClicked ', item);
+  }
+
+  public zoomChanged(level: number): void {
+    this.zoomLevel = level;
+    this.colSize = this.baseColSize + (this.baseColSize * this.zoomLevel/10);
+    
+    console.log('co size ', this.colSize);
+
+    setTimeout(()=> this.cdr.markForCheck);
   }
 
 }

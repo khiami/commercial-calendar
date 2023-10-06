@@ -1,0 +1,8 @@
+<div class="calendar-zoom" *ngIf="range">
+    <button class="btn" (click)="updateValue(-1)">-</button>
+    <div class="zoom-control col">
+        <input [formControl]="range" type="range" id="range" name="calendar-zoom" class="w-100" min="1" max="10"/>
+        <label for="calendar-zoom d-none">Zoom</label>
+    </div>
+    <button class="btn" (click)="updateValue(1)">+</button>
+</div>
