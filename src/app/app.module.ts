@@ -12,6 +12,8 @@ import { CalendarProductComponent } from './activities/calendar-product/calendar
 import { CssVarDirective } from './directives/css-var.directive';
 import { FindXPipe } from './pipes/find-x.pipe';
 import { CssVarPipe } from './pipes/css-var.pipe';
+import {HttpClientModule} from '@angular/common/http';
+import { Findxv2Pipe } from './pipes/findxv2.pipe';
 
 @NgModule({
   declarations: [
@@ -24,12 +26,14 @@ import { CssVarPipe } from './pipes/css-var.pipe';
     CssVarDirective,
     FindXPipe,
     CssVarPipe,
+    Findxv2Pipe,
   ],
   imports: [
     CommonModule,
     BrowserModule,
     AppRoutingModule,
     RouterModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

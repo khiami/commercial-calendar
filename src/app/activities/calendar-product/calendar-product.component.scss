@@ -1,5 +1,5 @@
 .calendar-product {
-    max-width: var(--week-col-size);
+    max-width: calc(var(--week-col-size) - 0.625rem);
     aspect-ratio: 1;
 }
 

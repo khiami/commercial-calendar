@@ -1,33 +1,44 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, HostBinding, HostListener, Input, Output} from '@angular/core';
+import {Debounce} from 'lodash-decorators';
+import {query} from 'src/app/helpers';
 
 @Component({
-  selector: 'calendar-activity',
-  templateUrl: './calendar-activity.component.html',
-  styleUrls: ['./calendar-activity.component.scss']
+    selector: 'calendar-activity',
+    templateUrl: './calendar-activity.component.html',
+    styleUrls: ['./calendar-activity.component.scss']
 })
-export class CalendarActivityComponent implements OnInit, AfterViewInit {
+export class CalendarActivityComponent implements AfterViewInit {
 
-  @Input() activity: any;
-  @Input() width?: number;
+    @Input() public activity: any;
 
-  @Output() onUpdateHeight: EventEmitter<number> = new EventEmitter();
-  @Output() onClick: EventEmitter<any> = new EventEmitter();
+    @Output() public onClick: EventEmitter<any> = new EventEmitter();
 
-  constructor(
-    private el: ElementRef
-  ) { }
+    // @HostBinding('style.height.px') public outerHeight?: number;
 
-  ngOnInit(): void {
+    constructor(
+        private el: ElementRef
+    ) {}
 
-  }
+    ngAfterViewInit(): void {
+        // this.updateDimensions();
+        // setTimeout(()=> this.updateDimensions(), 100);
+    }
 
-  ngAfterViewInit(): void {
-      this.onUpdateHeight.emit(this.el.nativeElement.clientHeight);
-  }
+    // @Debounce(500)
+    // @HostListener('window:resize')
+    // private updateDimensions() {
+    //     this.outerHeight = this.getCssByAttr('clientHeight');
+    // }
 
-  @HostBinding('click')
-  private clicked() {
-    this.onClick.emit(this.activity);
-  }
+    @HostListener('click')
+    private clicked() {
+        this.onClick.emit(this.activity);
+    }
+
+    // private getCssByAttr(attr: string): number {
+    //     let htmlElement = query('.activity-item', this.el.nativeElement);        
+    //     let res = htmlElement?.[attr];
+    //     return res;
+    // }
 
 }

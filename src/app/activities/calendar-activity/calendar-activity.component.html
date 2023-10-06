@@ -1,10 +1,8 @@
-<div class="activity-item" [style.width.px]="width">
-    <p class="activity-name mb-1">{{ activity.id }} {{ activity.name }}</p>
-    
-    <div class="calendar-products row">
-        <calendar-product   *ngFor="let product of activity?.products;" class="col"
-                            [product]="product"
-        >
-        </calendar-product>
-    </div>
+<p class="activity-name mb-1">{{ activity.id }} {{ activity.name }}</p>
+
+<div class="calendar-products row p-0 m-0">
+    <calendar-product   *ngFor="let product of activity?.products;"
+                        [product]="product"
+    >
+    </calendar-product>
 </div>

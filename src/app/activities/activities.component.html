@@ -1,6 +1,6 @@
 <div class="calendar row m-0 px-2">
 
-    <!--  Calendar Header -->
+    <!--  Calendar Header (Sticky) -->
     <div class="calendar-header sticky">
         <div class="calendar-header-seasons d-flex">
             <div class="calendar-header-season col" *ngFor="let item of seasons;">{{ item }}</div>  
@@ -33,22 +33,26 @@
             </div>
         </div>
 
-        <!-- Activities -->
+        <!-- Activities per Week -->
         <div class="calendar-activity-group week-size-col col p-0" *ngFor="let week of [].constructor(weeks); index as weekIdx">
             <div class="calendar-placeholders flex-with-gap">
-                <div class="calendar-placeholder"   *ngFor="let type of types; index as typeIdx"
+                <div class="calendar-placeholder"   *ngFor="let type of types; index as typeIdx"    
                                                     [ngClass]="'activity-type-' + type.code"
-                                                    [attr.data-length]="(activities!|findx:'startWeek':weekIdx+1:true)?.length"
+                                                    [class.has-activity]="(activities!|findxv2:[{key:'startWeek',value:weekIdx+1},{key:'activityTypeId',value:type.id}]:true) != undefined"
                 >
-                    <ng-container *ngIf="activities!|findx:'startWeek':weekIdx+1 as activity">
-                        <ng-container *ngIf="activity.activityTypeId == type.id">
-                            <calendar-activity  [activity]="activity" class="position-relative d-flex w-100"
-                                                [width]="(activity.endWeek - activity.startWeek) * ('week-col-size'|cssVariable) - 4"
-                                                (onClick)="activityClicked($event)"
-                            >
-                            </calendar-activity>
-                        </ng-container>
-                    </ng-container>
+
+                    <!--  Week with Activities -->
+                    <div    class="calendar-activity-list"
+                            *ngIf="activities!|findxv2:[{key:'startWeek',value:weekIdx+1},{key:'activityTypeId',value:type.id}]:true as items"
+                    >
+                            <ng-container *ngFor="let item of items; index as activityIdx">
+                                <calendar-activity  [activity]="item" class="calendar-activity"
+                                                    [style.width.px]="(item.endWeek - item.startWeek) * ('week-col-size'|cssVariable) - 4"
+                                                    (onClick)="activityClicked($event)"
+                                >
+                                </calendar-activity>
+                            </ng-container>
+                    </div>
                     
                 </div>
             </div>
