@@ -13,3 +13,32 @@ html.debug {
     --week-col-size: 5rem;
     --season-text-color: #dbdbdb;
 }
+
+.calendar-activity {
+    &.custom-size {
+        .activity-name {
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .activity-tagline,
+        .activity-name {
+            margin-bottom: .5rem;
+        }
+
+        .calendar-products {
+            gap: 1rem;
+
+            img {
+                margin-bottom: 0.5rem;
+            }
+        }
+    }
+
+    &:not(.custom-size) {
+        .activity-tagline,
+        .activity-name {
+            margin-bottom: .2rem;
+        }
+    }
+}

@@ -1,8 +1,10 @@
 .calendar-product {
     // max-width: calc(var(--week-col-size) - 0.625rem);
     aspect-ratio: 1;
+    transition: max-width 1s;
 }
 
 .product-attribute {
     // font-size: calc(var(--week-col-size) / 14);
+    transition: font-size 1s;
 }

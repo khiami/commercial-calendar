@@ -69,15 +69,6 @@ month-length {
     text-transform: uppercase;
     text-align: right;
     z-index: 11 * 52 + 1;
-
-    // &.sticky {
-    //     position: sticky;
-    //     top: 0;
-    //     left: -1rem;
-    //     bottom: 0;
-    //     background: white;
-    //     z-index: 1;
-    // }
 }
 
 .horizontal-sticky {
@@ -89,23 +80,6 @@ month-length {
     position: sticky;
     top: 0;
 }
-
-// .activity-type-brand-campaign,
-// .activity-type-main-seasonal-campaign,
-// .activity-type-promotional-moments,
-// .activity-type-main-seasonal-campaign-product,
-// .activity-type-block-support,
-// .activity-type-hype {
-//     min-height: 17rem;
-// }
-
-// .activity-type-consumer-moments,
-// .activity-type-commecial-moments,
-// .activity-type-always-on-noos,
-// .activity-type-poc,
-// .activity-type-golf {
-//     min-height: 8rem;
-// }
 
 .calendar-activity-header {
     display: flex;
@@ -130,7 +104,6 @@ month-length {
 }
 
 .week-size-col {
-    // min-width: var(--week-col-size);
     transition: min-width 1s;
 }
 
@@ -195,6 +168,10 @@ month-length {
         z-index: 1;
         pointer-events: none;
     }
+
+    &.custom-size {
+        padding: 1rem;
+    }
 }
 
 .calendar-activity-group {
@@ -206,7 +183,7 @@ month-length {
 
 .has-activity {
     position: relative;
-    z-index: calc(11 * 52); // types * weeks
+    z-index: calc(11 * 52);
     isolation: isolate;
 
 }

@@ -2,6 +2,6 @@
     <ng-container *ngIf="(product.assets|findx:'angle':'main') as asset">
         <img [src]="asset?.cached?.['jpg'] ?? asset.url" class="img-fluid">
     </ng-container>
-    <div class="product-attribute name" [style.font-size.px]="colSize / 14">{{ product?.name }}</div>
-    <div class="product-attribute code" [style.font-size.px]="colSize / 14">{{ product?.code }}</div>
+    <div class="product-attribute name" [style.font-size.px]="colSize / 14" [title]="product?.name">{{ product?.name }}</div>
+    <div class="product-attribute code" [style.font-size.px]="colSize / 14" [title]="product?.code">{{ product?.code }}</div>
 </div>
