@@ -6,8 +6,8 @@
     align-items: center;
     gap: .5rem;
     bottom: 0;
-    left: calc(var(--calendar-activities-header) + 1.125rem);
-    width: calc(100% - .5rem - calc(var(--calendar-activities-header) + 1.125rem));
+    left: calc(var(--calendar-activities-header) + 9px);
+    width: calc(100% - .5rem - calc(var(--calendar-activities-header) + 0.5rem));
     z-index: 11 * 52;
 }
 
@@ -40,7 +40,7 @@ label {
 
 input[type="range"] {
     color: #000;
-    --thumb-height: .2rem;
+    --thumb-height: .5rem;
     --track-height: .5rem;
     --track-color: rgba(0, 0, 0, 0.2);
     --brightness-hover: 180%;

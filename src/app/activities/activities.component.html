@@ -40,9 +40,9 @@
                                                                     css-var="calendar-activities-header:get:width"
                                                                     [disableVar]="index > 0"
                                                                     [ngClass]="'activity-type-' + type.code"
-                                                                    [style.min-height.px]="colSize * (type.data?.large ? 5:2)"
+                                                                    [style.min-height.px]="colSize * (type.data?.large ? 5:1)"
             >
-                {{ type.name }}
+                <span>{{ type.name }}</span>
             </div>
         </div>
 
@@ -53,7 +53,8 @@
             <div class="calendar-placeholders flex-with-gap">
                 <div class="calendar-placeholder"   *ngFor="let type of types; index as typeIdx"    
                                                     [ngClass]="'activity-type-' + type.code"
-                                                    [style.min-height.px]="colSize * (type.data?.large ? 5:2)"
+                                                    [class.narrow]="type.data?.large == null"
+                                                    [style.min-height.px]="colSize * (type.data?.large ? 5:1)"
                                                     [class.has-activity]="(activities!|findxv2:[{key:'startWeek',value:weekIdx+1},{key:'activityTypeId',value:type.id}]) != undefined"
                 >
 
