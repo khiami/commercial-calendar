@@ -151,11 +151,14 @@ month-length {
     position: relative;
     display: flex;
     flex-direction: column;
+    padding: 0 0 0.5rem;
     width: 100%;
     background-color: white;
-    padding: 0 0 0.5rem;
-    border: 2px dashed #BFBFBF;
-    border-radius: 4px;
+
+    &:not(.custom-style) {
+        border: 3px dashed #BFBFBF;
+        border-radius: 4px;
+    }
 
     &.custom-style {
         padding: 1rem;
