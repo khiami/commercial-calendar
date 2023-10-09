@@ -1,9 +1,10 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { getISOWeeksInYear } from 'date-fns';
 import { types } from './types.data';
-import { triggerWindowResize } from '../helpers';
+import { isNil, triggerWindowResize } from '../helpers';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { LocalStorageService } from '../services/local-storage.service';
 
 @Component({
   selector: 'calendar-activities',
@@ -47,16 +48,22 @@ export class ActivitiesComponent implements OnInit, AfterViewInit {
   constructor(
     private cdr: ChangeDetectorRef,
     private http: HttpClient,
+    private storage: LocalStorageService,
     // private route: ActivatedRoute
   ) { }
 
   async ngOnInit() {
 
+    let zoomFromStorage = this.storage.get('calendar-zoom-level') ?? this.zoomLevel;
+    if (!isNil(zoomFromStorage)) zoomFromStorage = +(zoomFromStorage ?? 1);
+    if (isNaN(zoomFromStorage)) zoomFromStorage = 1;
+    this.zoomLevel = zoomFromStorage;
+
     // TODO remove when sync with warroom
     await this.loadTypes();
     this.loadData();
 
-    this.zoomChanged();
+    this.zoomChanged(this.zoomLevel);
   }
   
   ngAfterViewInit(): void {
@@ -93,6 +100,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit {
 
   public zoomChanged(level?: number): void {
     if (level) this.zoomLevel = level;
+    this.storage.set('calendar-zoom-level', level);
     this.colSize = this.baseColSize + (this.baseColSize * this.zoomLevel/10);
     setTimeout(()=> this.cdr.markForCheck);
   }
