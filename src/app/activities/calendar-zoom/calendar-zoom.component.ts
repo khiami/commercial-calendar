@@ -17,7 +17,7 @@ export class CalendarZoomComponent implements OnInit, OnDestroy {
   public range?: FormControl;
   private destroy$: Subject<void>;
 
-  public readonly min: number = 1;
+  public readonly min: number = 0;
   public readonly max: number = 15;
 
   constructor() {

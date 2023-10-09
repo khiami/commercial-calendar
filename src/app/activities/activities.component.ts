@@ -35,7 +35,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit {
   public activities?: any[];
   public types?: any[];
 
-  public zoomLevel: number = 1;
+  public zoomLevel: number = 0;
 
   public readonly baseColSize: number = 5 * 16;
   public colSize: number = 5 * 16;
@@ -52,8 +52,8 @@ export class ActivitiesComponent implements OnInit, AfterViewInit {
   async ngOnInit() {
 
     let zoomFromStorage = this.storage.get('calendar-zoom-level') ?? this.zoomLevel;
-    if (!isNil(zoomFromStorage)) zoomFromStorage = +(zoomFromStorage ?? 1);
-    if (isNaN(zoomFromStorage)) zoomFromStorage = 1;
+    if (!isNil(zoomFromStorage)) zoomFromStorage = +(zoomFromStorage ?? 0);
+    if (isNaN(zoomFromStorage)) zoomFromStorage = 0;
     this.zoomLevel = zoomFromStorage;
 
     // TODO remove when sync with warroom
@@ -95,8 +95,9 @@ export class ActivitiesComponent implements OnInit, AfterViewInit {
     console.log('activityClicked ', item);
   }
 
-  public zoomChanged(level?: number): void {
-    if (level) this.zoomLevel = level;
+  public zoomChanged(level: number = 0): void {
+    if (level >= 0) 
+      this.zoomLevel = level;
     this.storage.set('calendar-zoom-level', level);
     this.colSize = this.baseColSize + (this.baseColSize * this.zoomLevel/10);
     setTimeout(()=> this.cdr.markForCheck);

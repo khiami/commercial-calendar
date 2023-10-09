@@ -11,6 +11,7 @@ html.debug {
 :root {
     --week-col-size: 5rem;
     --season-text-color: #dbdbdb;
+    --calendar-activities-header: 112px;
 }
 
 .calendar-activity {
@@ -61,11 +62,5 @@ html.debug {
                 display: none;
             }
         }
-    }
-
-    &.view-product-details {
-        // .product-attribute {
-        //     display: 
-        // }
     }
 }
