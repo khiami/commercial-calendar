@@ -9,6 +9,7 @@ export class CalendarProductComponent implements OnInit {
 
   @Input() product?: any;
   @Input() colSize!: number;
+  @Input() isNarrow: boolean = false;
   
   @Output() onClick: EventEmitter<any> = new EventEmitter();
   

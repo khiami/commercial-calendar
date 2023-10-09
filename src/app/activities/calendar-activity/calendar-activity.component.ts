@@ -9,6 +9,7 @@ export class CalendarActivityComponent {
 
     @Input() public activity: any;
     @Input() public colSize!: number;
+    @Input() isNarrow: boolean = false;
 
     @Output() public onClick: EventEmitter<any> = new EventEmitter();
 

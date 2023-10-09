@@ -8,7 +8,6 @@ html.debug {
 }
 
 
-
 :root {
     --week-col-size: 5rem;
     --season-text-color: #dbdbdb;
@@ -16,16 +15,6 @@ html.debug {
 
 .calendar-activity {
     &.custom-style {
-        .activity-name {
-            font-size: 1.2rem;
-            text-align: center;
-        }
-
-        .activity-tagline,
-        .activity-name {
-            margin-bottom: .5rem;
-        }
-
         .calendar-products {
             gap: 1rem;
 
@@ -35,10 +24,38 @@ html.debug {
         }
     }
 
-    &:not(.custom-style) {
-        .activity-tagline,
+    &.no-products {
         .activity-name {
-            margin-bottom: .2rem;
+            min-height: auto;
+        }
+    }
+}
+
+.calendar-placeholder {
+    &.narrow {
+        .activity-name {
+            font-size: 1rem;
+        }
+
+        .product-attribute {
+            display: none;
+        }
+
+        .calendar-products {
+            .calendar-product {
+                // max-height: 55px;
+            }
+
+            img {
+                margin: 0;
+            }
+        }
+        
+    }
+
+    &:not(.narrow) {
+        .activity-name {
+            font-size: .7rem;
         }
     }
 }

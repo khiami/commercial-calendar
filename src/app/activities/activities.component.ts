@@ -53,7 +53,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit {
   async ngOnInit() {
 
     // TODO remove when sync with warroom
-    this.loadTypes();
+    await this.loadTypes();
     this.loadData();
 
     this.zoomChanged();
@@ -68,7 +68,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit {
       observe: 'body',
     }).toPromise();
 
-    this.types = res;
+    this.types = res.filter((a: any)=> a.isActive);
   }
 
   private async loadData() {
@@ -77,11 +77,13 @@ export class ActivitiesComponent implements OnInit, AfterViewInit {
     let res: any = await this.http.get('http://localhost:4200/api/commercial-calendar-activities/?filter=calendarId||$eq||1', { 
       observe: 'body',
       headers: {
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBlY2NvY3AuY29tIiwicm9sZXMiOlsxLDI0XSwiaWF0IjoxNjk2NTgyMDgwLCJleHAiOjE2OTY2Njg0ODB9.RHxtkiiKgfUtKFrnws9DpR5aOl5NNyirt-ENWtjLarg',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBlY2NvY3AuY29tIiwicm9sZXMiOlsxLDI0XSwiaWF0IjoxNjk2ODM4OTgxLCJleHAiOjE2OTY5MjUzODF9.S6bUdsjKBWiHpTx5u0YaKizOep6gG96lnLQThu_f7DI',
       }
     }).toPromise();
 
-    this.activities = res;
+    let typeIds = this.types?.map(a=> a.id);
+    this.activities = res.filter((a: any)=> typeIds?.includes(a.activityTypeId));
+
     triggerWindowResize();
   }
 

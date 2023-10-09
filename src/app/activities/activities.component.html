@@ -1,4 +1,4 @@
-<div class="calendar row m-0 px-2">
+<div class="calendar row m-0 px-2 zoom-{{ zoomLevel }}" [class.view-details]="zoomLevel >= 3">
 
     <!--  Calendar Header (Sticky) -->
     <div class="calendar-header sticky">
@@ -62,17 +62,20 @@
                     <div    class="calendar-activity-list"
                             *ngIf="activities!|findxv2:[{key:'startWeek',value:weekIdx+1},{key:'activityTypeId',value:type.id}]:true as items"
                     >
-                            <ng-container *ngFor="let item of items; index as activityIdx">
-                                <calendar-activity  [activity]="item" class="calendar-activity"
-                                                    [class.custom-style]="item.fillColor?.length"
-                                                    [style.border-color]="item.color"
-                                                    [style.background-color]="item.fillColor"
-                                                    [style.width.px]="(item.endWeek - item.startWeek) * colSize - 4"
-                                                    (onClick)="activityClicked($event)"
-                                                    [colSize]="colSize"
-                                >
-                                </calendar-activity>
-                            </ng-container>
+                        <ng-container *ngFor="let item of items; index as activityIdx">
+                            <calendar-activity  [activity]="item" class="calendar-activity"
+                                                [class.custom-style]="item.fillColor?.length"
+                                                [class.no-products]="!item.products?.length"
+                                                [style.border-color]="item.color"
+                                                [style.background-color]="item.fillColor"
+                                                [style.width.px]="(item.endWeek - item.startWeek) * colSize - 4"
+                                                [style.min-height.px]="type.data?.large == null ? colSize * .85:null"
+                                                (onClick)="activityClicked($event)"
+                                                [colSize]="colSize"
+                                                [isNarrow]="type.data?.large == null"
+                            >
+                            </calendar-activity>
+                        </ng-container>
                     </div>
                     
                 </div>
