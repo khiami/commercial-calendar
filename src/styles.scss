@@ -16,7 +16,7 @@ html.debug {
 .calendar-activity {
     &.custom-style {
         .calendar-products {
-            gap: 1rem;
+            gap: .5rem;
 
             img {
                 margin-bottom: 0.5rem;
@@ -37,9 +37,7 @@ html.debug {
             font-size: 1rem;
         }
 
-        .product-attribute {
-            display: none;
-        }
+        
 
         .calendar-products {
             img {
@@ -53,5 +51,21 @@ html.debug {
         .activity-name {
             font-size: .7rem;
         }
+    }
+}
+
+.calendar-component {
+    &:not(.view-product-details) {
+        .narrow {
+            .product-attribute {
+                display: none;
+            }
+        }
+    }
+
+    &.view-product-details {
+        // .product-attribute {
+        //     display: 
+        // }
     }
 }
