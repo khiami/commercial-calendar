@@ -1,10 +1,8 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { getISOWeeksInYear } from 'date-fns';
-import { types } from './types.data';
-import { isNil, triggerWindowResize } from '../helpers';
-import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { LocalStorageService } from '../services/local-storage.service';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {getISOWeeksInYear} from 'date-fns';
+import {isNil, triggerWindowResize} from '../helpers';
+import {HttpClient} from '@angular/common/http';
+import {LocalStorageService} from '../services/local-storage.service';
 
 @Component({
   selector: 'calendar-activities',
@@ -49,7 +47,6 @@ export class ActivitiesComponent implements OnInit, AfterViewInit {
     private cdr: ChangeDetectorRef,
     private http: HttpClient,
     private storage: LocalStorageService,
-    // private route: ActivatedRoute
   ) { }
 
   async ngOnInit() {

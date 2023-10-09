@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ActivitiesComponent } from './activities/activities.component';
-import { MonthLengthComponent } from './month-length/month-length.component';
 import { CalendarActivityComponent } from './activities/calendar-activity/calendar-activity.component';
 import { CalendarProductComponent } from './activities/calendar-product/calendar-product.component';
 import { CssVarDirective } from './directives/css-var.directive';
@@ -17,6 +16,7 @@ import { Findxv2Pipe } from './pipes/findxv2.pipe';
 import { CalendarZoomComponent } from './activities/calendar-zoom/calendar-zoom.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SafePipe } from './pipes/safe.pipe';
+import { MonthLengthComponent } from './activities/month-length/month-length.component';
 
 @NgModule({
   declarations: [
@@ -25,13 +25,13 @@ import { SafePipe } from './pipes/safe.pipe';
     MonthLengthComponent,
     CalendarActivityComponent,
     CalendarProductComponent,
+    CalendarZoomComponent,
 
     CssVarDirective,
     FindXPipe,
     CssVarPipe,
     Findxv2Pipe,
     SafePipe,
-    CalendarZoomComponent,
   ],
   imports: [
     CommonModule,

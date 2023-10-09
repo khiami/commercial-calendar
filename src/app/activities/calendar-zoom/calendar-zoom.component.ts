@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
-import { cap } from 'src/app/helpers';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {Subject, takeUntil} from 'rxjs';
+import {cap} from 'src/app/helpers';
 
 @Component({
   selector: 'calendar-zoom',
@@ -42,7 +42,6 @@ export class CalendarZoomComponent implements OnInit, OnDestroy {
 
   public updateValue(diff: number): void {
     let value = this.range?.value ?? this.level ?? 0;
-    // value = cap(value, 0, 10);
     this.range?.patchValue(value += diff);
   }
 
