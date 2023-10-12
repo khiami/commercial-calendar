@@ -8,8 +8,8 @@ import { Component, HostListener } from '@angular/core';
 export class AppComponent {
   title = 'commercial-calendar';
 
-  @HostListener('window:keydown.escape')
+  @HostListener('document:keydown.escape')
   private debug() {
-    document.documentElement.classList.toggle('debug');
+    // document.documentElement.classList.toggle('debug');
   }
 }

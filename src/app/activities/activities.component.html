@@ -32,7 +32,7 @@
 
 
     <!--  Calendar Body -->
-    <div class="calendar-body row d-flex flex-nowrap">
+    <div class="calendar-body row d-flex flex-nowrap" [class.dragging]="dragging">
 
         <!--  Vertical header (Sticky) -->
         <div class="calendar-activities-header horizontal-sticky flex-with-gap">
@@ -76,32 +76,6 @@
                         </div>
                     </ng-container>
                 </ng-container>
-                <!-- <div    *ngFor="let type of types; index as typeIdx" class="calendar-placeholder col-size-{{ type.data?.colSize }}"
-                        [ngClass]="'activity-type-' + type.code"
-                        [class.narrow]="type.data?.colSize < 5"
-                        [class.has-activity]="(activities!|findxv2:[{key:'startWeek',value:weekIdx+1},{key:'activityTypeId',value:type.id}]) != undefined"
-                        [style.min-height.px]="colSize * type.data?.colSize"
-                >
-                    <div    class="calendar-activity-list"
-                            *ngIf="activities!|findxv2:[{key:'startWeek',value:weekIdx+1},{key:'activityTypeId',value:type.id}]:true as items;"
-                    >
-                        <ng-container *ngFor="let item of items; index as activityIdx">
-                            <commercial-calendar-activity   [activity]="item" class="calendar-activity"
-                                                            [isNarrow]="type.data?.colSize < 5"
-                                                            [style.width.px]="(item.endWeek - item.startWeek) * colSize - 4"
-                                                            [style.min-height.px]="type.data?.colSize == 1 && colSize * .85"
-                                                            [style.border-color]="item.color"
-                                                            [style.background-color]="item.fillColor"
-                                                            [class.custom-style]="item.fillColor?.length"
-                                                            [class.no-products]="!item.products?.length"
-                                                            (onClick)="activityClicked($event)"
-                                                            [colSize]="colSize"
-                            >
-                            </commercial-calendar-activity>
-                        </ng-container>
-                    </div>
-                    
-                </div> -->
             </div>
         </div>
 

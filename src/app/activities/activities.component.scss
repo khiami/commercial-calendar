@@ -2,6 +2,12 @@
     padding: 0 0 5rem;
 }
 
+.calendar-body {
+    &.dragging {
+        cursor: grabbing;
+    }
+}
+
 .calendar-header {
     margin-left: calc(var(--calendar-activities-header) + .5px);
     padding-top: 1rem;
@@ -137,10 +143,48 @@ month-length {
     gap: 0;
 }
 
+.dragging {
+
+    div,
+    span,
+    a,
+    img,
+    button,
+    p {
+        user-select: none;
+    }
+}
+
 .calendar-placeholder {
     display: flex;
     flex-direction: column;
     row-gap: 0.25rem;
+
+    &.empty {
+        position: relative;
+        cursor: grab;
+
+        .dragging & {
+            cursor: grabbing;
+        }
+
+        &:after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            left: 5px;
+            top: 5px;
+            width: calc(100% - 10px);
+            height: calc(100% - 10px);
+            transition: background-color .4s;
+            background: transparent;
+            pointer-events: none;
+        }
+
+        &:hover:after {
+            background-color: rgba(51, 51, 51, .05);
+        }
+    }
 
     &.narrow {
         .calendar-activity-list {
@@ -150,7 +194,7 @@ month-length {
 
         .calendar-activity {
             align-items: center;
-            
+
             &:not(.no-products) {
                 justify-content: space-between;
                 padding: 0.5rem;
@@ -169,7 +213,7 @@ month-length {
 
             &.custom-style {
                 padding: 1rem;
-            }            
+            }
         }
     }
 }
@@ -236,4 +280,12 @@ month-length {
 
 .narrow {
     box-shadow: 0 1px 0 0;
+}
+
+.calendar-undetermined-element {
+    position: absolute;
+    height: 100%;
+    opacity: .5;
+    background-color: whitesmoke;
+    z-index: 11 * 52;
 }
