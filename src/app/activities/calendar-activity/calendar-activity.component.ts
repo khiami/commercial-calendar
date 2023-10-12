@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
-    selector: 'calendar-activity',
+    selector: 'commercial-calendar-activity',
     templateUrl: './calendar-activity.component.html',
     styleUrls: ['./calendar-activity.component.scss']
 })

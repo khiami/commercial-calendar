@@ -68,7 +68,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit {
   }
 
   private async loadTypes() {
-    let res: any = await this.http.get('http://localhost:4200/api/commercial-calendar-activity-types/?sort=position,ASC', { 
+    let res: any = await this.http.get('http://localhost:3015/commercial-calendar-activity-types/?filter=isActive||$eq||true&sort=position,ASC', { 
       observe: 'body',
     }).toPromise();
 
@@ -78,10 +78,10 @@ export class ActivitiesComponent implements OnInit, AfterViewInit {
   private async loadData() {
 
     // TODO remove when sync with warroom
-    let res: any = await this.http.get('http://localhost:4200/api/commercial-calendar-activities/?filter=calendarId||$eq||1', { 
+    let res: any = await this.http.get('http://localhost:3015/commercial-calendar-activities/?filter=calendarId||$eq||1&filter=isActive||$eq||true&sort=position,ASC', { 
       observe: 'body',
       headers: {
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBlY2NvY3AuY29tIiwicm9sZXMiOlsxLDI0XSwiaWF0IjoxNjk2ODM4OTgxLCJleHAiOjE2OTY5MjUzODF9.S6bUdsjKBWiHpTx5u0YaKizOep6gG96lnLQThu_f7DI',
+        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBlY2NvY3AuY29tIiwicm9sZXMiOlsxLDI0XSwiaWF0IjoxNjk3MTAxMTgxLCJleHAiOjE2OTcxODc1ODF9.hvBgaSAIe_oTFc_9Nmfiv6o1cgcEuW6oWuyQlA7yFZ4',
       }
     }).toPromise();
 
