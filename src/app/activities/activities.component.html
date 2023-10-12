@@ -54,6 +54,8 @@
                         <div    [class.empty]="items.length == 0" class="calendar-placeholder col-size-{{ type.data?.colSize }} activity-type-{{type.code}}"
                                 [class.has-activity]="items.length"
                                 [class.narrow]="type.data?.colSize < 5"
+                                [attr.data-type-id]="type.id"
+                                [attr.data-week]="weekIdx+1"
                                 [style.min-height.px]="colSize * type.data?.colSize"
                         >
                         

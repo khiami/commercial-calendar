@@ -121,25 +121,30 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
 	public dragToCreate() {
 
 		let internal$: Subject<void> = new Subject();
-		// let pixels: number = 0;
-
 		let lastCapturedLeft = 0;
+		
 		fromEvent(document, 'mousedown')
 			.pipe(
 				tap((e: any)=> {
 					this.cleanup();
-					let id = generateRandomText();
-					let element = this.renderer.createElement('DIV');
-					element.id = id;
-					element.className = 'calendar-undetermined-element';
-					element.style.minWidth = this.colSize + 'px';
-
-					lastCapturedLeft = e.screenX;
-					this.renderer.appendChild(e.srcElement, element);
-					this.domElements.push({
-						child: element,
-						parent: e.srcElement,
-					});
+					if (e.srcElement?.classList.contains('calendar-placeholder')) {
+						let id = generateRandomText();
+						let element = this.renderer.createElement('DIV');
+						element.id = id;
+						element.className = 'calendar-undetermined-element';
+						element.style.minWidth = this.colSize + 'px';
+	
+						lastCapturedLeft = e.screenX;
+						this.renderer.appendChild(e.srcElement, element);
+						this.domElements.push({
+							child: element,
+							parent: e.srcElement,
+							data: {
+								startWeek: +e.srcElement?.dataset.week,
+								activityTypeId: +e.srcElement?.dataset.typeId
+							}
+						});
+					}
 				}),
 				switchMap(()=> 
 					fromEvent(document, 'mousemove')
@@ -154,9 +159,11 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
 				next: (e: any) => {
 					console.log('mouse move event ', e);
 					this.dragging = true;
-					let {child} = this.domElements.slice().pop();
+					let {child} = this.domElements?.slice().pop()??{};
 
-					child.style.width = (e.screenX - lastCapturedLeft) + this.colSize + 'px';
+					if (child) {
+						child.style.width = (e.screenX - lastCapturedLeft) + this.colSize + 'px';
+					}
 
 				},
 				complete: () => {
@@ -166,7 +173,15 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
 			});
 
 		return forkJoin([ internal$ ]).subscribe(()=> {
-			console.log('mouse released ');
+			let {child, data} = this.domElements.slice().pop()??{};
+			// console.log('mouse released ', child);
+			if (child) {
+				console.log('create activity with the following', {
+					...data,
+					endWeek: data.startWeek + Math.ceil(parseInt(window.getComputedStyle(child).width)/this.colSize),
+				});
+			}
+
 			this.dragging = false;
 			lastCapturedLeft = 0;
 			this.dragToCreate();
@@ -175,7 +190,7 @@ export class ActivitiesComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	@HostListener('document:keydown.escape')
 	private cleanup() {
-		this.domElements.forEach(item=> {
+		this.domElements?.forEach(item=> {
 			this.renderer.removeChild(item.parent, item.child);
 		});
 		this.domElements = [];
