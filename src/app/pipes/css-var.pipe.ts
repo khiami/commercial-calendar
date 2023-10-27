@@ -2,10 +2,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { getCssVariable } from '../helpers';
 
 @Pipe({
-	name: 'cssVariable'
+	name: 'cssVariable',
 })
 export class CssVarPipe implements PipeTransform {
-
 	transform(variable: string, isInteger: boolean = true): number {
 		if (!variable.startsWith('--')) variable = '--' + variable;
 		let res: any = getCssVariable(document.documentElement, variable);
@@ -22,5 +21,4 @@ export class CssVarPipe implements PipeTransform {
 
 		return res;
 	}
-
 }

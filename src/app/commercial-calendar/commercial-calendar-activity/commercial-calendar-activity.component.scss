@@ -1,0 +1,57 @@
+.activity-name {
+	margin-bottom: 0.25rem;
+	padding: 0.5rem 0.5rem 0 0.5rem;
+	min-height: 2rem;
+	line-height: 1;
+	text-align: left;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.calendar-products {
+	display: flex;
+	justify-content: flex-start;
+	align-self: center;
+	margin: 0 0 0.5rem;
+	padding: 0;
+	width: 100%;
+}
+
+.calendar-product {
+	text-align: center;
+	cursor: pointer;
+	overflow: hidden;
+	// aspect-ratio: 1;
+}
+
+.activity-tagline {
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.activity-content {
+	text-align: left;
+}
+
+.activity-toolbar {
+	position: absolute;
+	gap: 1rem;
+	top: 0.5rem;
+	right: 0.5rem;
+	z-index: 1;
+
+	.btn {
+		background-color: white;
+	}
+}
+
+.activity-text-element {
+	padding: 0.5rem;
+	white-space: pre-wrap;
+	color: white;
+	mix-blend-mode: difference;
+}
+
+::selection {
+	background: black;
+}

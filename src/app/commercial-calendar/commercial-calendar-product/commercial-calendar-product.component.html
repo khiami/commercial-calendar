@@ -1,0 +1,20 @@
+<div class="calendar-product">
+    <img    [src]="url" class="img-fluid"
+            [width]="colSize * .875 - 4" 
+            [height]="colSize * .875 - 4"
+            [alt]="product?.name"
+            [title]="product?.name"
+            (load)="onRender.emit()"
+            (error)="onRender.emit()"
+            [altEnabled]="true"
+            [assets]="product.assets" fallbackSource
+    >
+
+    <div    [style.font-size.px]="colSize / 12" class="product-attribute"
+            [title]="product?.name + '/' + product?.code"
+    >
+        <div>
+            {{ product?.name }}
+        </div>
+    </div>
+</div>

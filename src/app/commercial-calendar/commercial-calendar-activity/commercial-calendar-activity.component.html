@@ -1,0 +1,33 @@
+<p *ngIf="activity.tagline" class="activity-tagline activity-text-element mb-0">{{ activity.tagline }}</p>
+<div *ngIf="activity.content" class="activity-content activity-text-element mb-3" [innerHTML]="activity.content|safe:'html'"></div>
+<!-- <pre class="debug" *ngIf="ui.isDebug"> - {{activity.id}}</pre> -->
+<p [title]="activity.name" class="activity-name activity-text-element">{{ activity.name }}</p>
+
+
+<div *ngIf="activity?.products as products" class="calendar-products no-products row flex-wrap">
+    <commercial-calendar-product *ngFor="let product of products; trackBy trackByIndex" class="calendar-product col flex-grow-0 p-0"
+                                 [product]="product"
+                                 [colSize]="colSize"
+                                 [mediaSize]="mediaSize"
+                                 [style.min-width.px]="colSize * mediaSize"
+                                 (onClick)="onClick.emit($event)"
+                                 (onRender)="onRender()"
+    >
+    </commercial-calendar-product>
+</div>
+
+<div class="activity-toolbar d-flex flex-row justify-content-between">
+    <ng-container *ngIf="isAdmin">
+        <div class="d-inline-block">
+            <button class="btn btn-outline-dark btn-sm" id="calendar-edit-activity" (click)="onEdit.emit(activity)" title="Edit">
+                <!-- <fa-icon icon="pen-to-square"></fa-icon> -->Edit
+            </button>
+        </div>
+
+        <div class="d-inline-block">
+            <button class="btn btn-outline-dark btn-sm" id="calendar-remove-activity" (click)="onDelete.emit(activity)" title="Delete">
+                <!-- <fa-icon icon="trash"></fa-icon> -->Trash
+            </button>
+        </div>
+    </ng-container>
+</div>

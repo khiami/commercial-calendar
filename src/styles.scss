@@ -2,65 +2,41 @@
 @import "/node_modules/bootstrap/dist/css/bootstrap";
 
 html.debug {
-    * {
-        box-shadow: 0 0 0 1px red;
-    }
+	* {
+		box-shadow: 0 0 0 1px red;
+	}
 }
 
-
 :root {
-    --week-col-size: 5rem;
-    --season-text-color: #dbdbdb;
-    --calendar-activities-header: 112px;
+	--week-col-size: 5rem;
+	--season-text-color: #dbdbdb;
 }
 
 .calendar-activity {
-    &.custom-style {
-        .calendar-products {
-            gap: .5rem;
+	&.custom-style {
+		.activity-name {
+			font-size: 1.2rem;
+			text-align: center;
+		}
 
-            img {
-                margin-bottom: 0.5rem;
-            }
-        }
-    }
+		.activity-tagline,
+		.activity-name {
+			margin-bottom: 0.5rem;
+		}
 
-    &.no-products {
-        .activity-name {
-            min-height: auto;
-        }
-    }
-}
+		.calendar-products {
+			gap: 1rem;
 
-.calendar-placeholder {
-    &.narrow {
-        .activity-name {
-            font-size: 1rem;
-        }
+			img {
+				margin-bottom: 0.5rem;
+			}
+		}
+	}
 
-        
-
-        .calendar-products {
-            img {
-                margin: 0;
-            }
-        }
-        
-    }
-
-    &:not(.narrow) {
-        .activity-name {
-            font-size: .7rem;
-        }
-    }
-}
-
-.calendar-component {
-    &:not(.view-product-details) {
-        .narrow {
-            .product-attribute {
-                display: none;
-            }
-        }
-    }
+	&:not(.custom-style) {
+		.activity-tagline,
+		.activity-name {
+			margin-bottom: 0.2rem;
+		}
+	}
 }

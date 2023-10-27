@@ -1,14 +1,10 @@
-import {Injectable} from '@angular/core';
-
-
+import { Injectable } from '@angular/core';
 
 @Injectable({
-    providedIn: 'root'
+	providedIn: 'root',
 })
 export class DataExService {
-
-    productsMap: any = {};
-    items: any = [];
-    maps: any = {};
-
+	productsMap: any = {};
+	items: any = [];
+	maps: any = {};
 }

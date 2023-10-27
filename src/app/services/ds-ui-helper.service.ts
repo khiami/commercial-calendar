@@ -5,148 +5,176 @@ import { DataExService } from './data-ex.service';
 import { UiService } from './ui.service';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root',
 })
 export class DsUiHelperService {
+	constructor(
+		private dx: DataExService,
+		private ui: UiService,
+	) {}
 
-    constructor(
-        private dx: DataExService,
-        private ui: UiService,
-    ) {}
+	getProductImageCode(product: any) {
+		const code = product.code;
+		return code.slice(0, 6) + '-' + code.slice(6, 11);
+	}
 
-    getProductImageCode(product: any) {
-        const code = product.code;
-        return code.slice(0, 6) + '-' + code.slice(6, 11);
-    }
+	private getFormatKey(url: any, options: any) {
+		let ext = options.format
+			? `${options.format}`
+			: url.slice(url.length - 3);
+		if (ext == 'tif') ext = 'jpg';
+		const size = options.size ? `__${options.size}` : '';
 
-    private getFormatKey(url: any, options: any) {
-        let ext = options.format ? `${options.format}` : url.slice(url.length - 3);
-        if (ext == 'tif') ext = 'jpg';
-        const size = options.size ? `__${options.size}` : '';
+		return `${ext}${size}`;
+	}
 
-        return `${ext}${size}`;
-    }
+	getCachedUrl(asset: any, size = null, format = null, _url = null) {
+		// If we want to piggyback on some other system cache
+		if (this.ui.settingsMap['cache.rebase']) {
+			const filename = `${this.getProductImageCode(
+				this.dx.productsMap[asset.productId],
+			)}-${asset.angle}`;
+			const newUrl = `${this.ui.settingsMap['cache.rebase']}${filename}__512.png`;
+			return newUrl;
+		}
 
-    getCachedUrl(asset: any, size = null, format = null, _url = null) {
-        // If we want to piggyback on some other system cache
-        if (this.ui.settingsMap['cache.rebase']) {
-            const filename = `${this.getProductImageCode(this.dx.productsMap[asset.productId])}-${asset.angle}`;
-            const newUrl = `${this.ui.settingsMap['cache.rebase']}${filename}__512.png`;
-            return newUrl;
-        }
+		const url = _url ? _url : asset.url;
 
-        const url = _url ? _url : asset.url;
+		// No cache enabled, just use URL (bad for EDAM direct links)
+		if (!this.ui.getSettingBool('cache.enabled')) {
+			return url;
+		}
 
-        // No cache enabled, just use URL (bad for EDAM direct links)
-        if (!this.ui.getSettingBool('cache.enabled')) {
-            return url;
-        }
+		// svg fix ?
+		//if(url.toLowerCase().endsWith('.svg')) return url;
 
-        // svg fix ?
-        //if(url.toLowerCase().endsWith('.svg')) return url;
+		//https://eccods.blob.core.windows.net/cached2/050144-00101-outside__512.png
 
-        //https://eccods.blob.core.windows.net/cached2/050144-00101-outside__512.png
+		// Check if we have direct url to cached file
+		const key = this.getFormatKey(url, { format: format, size: size });
 
-        // Check if we have direct url to cached file
-        const key = this.getFormatKey(url, {format: format, size: size});
+		if (asset.cached && asset.cached[key]) {
+			if (false) {
+				return asset.cached[key].replace(
+					'eccocpeu.blob.core.windows.net',
+					'eccocpcn.blob.core.chinacloudapi.cn',
+				);
+			}
 
-        if (asset.cached && asset.cached[key]) {
-            if (false) {
-                return asset.cached[key].replace(
-                    'eccocpeu.blob.core.windows.net',
-                    'eccocpcn.blob.core.chinacloudapi.cn',
-                );
-            }
+			return asset.cached[key];
+		}
 
-            return asset.cached[key];
-        }
+		// qfix, so no server freeze
+		if (this.ui.settingsMap['cache.nogenerate']) {
+			return null;
+		}
 
-        // qfix, so no server freeze
-        if (this.ui.settingsMap['cache.nogenerate']) {
-            return null;
-        }
+		//return 'https://eccocpeu.blob.core.windows.net/icons/no-image-sync.png'; // makes more sense
 
-        //return 'https://eccocpeu.blob.core.windows.net/icons/no-image-sync.png'; // makes more sense
+		// Use API otherwise - disabled as can and will be handled on server side, only for debug and when issues
+		return (
+			'/api/assets/cached?url=' +
+			url +
+			(size ? `&size=${size}` : '') +
+			(format ? `&format=${format}` : '')
+		);
+	}
 
-        // Use API otherwise - disabled as can and will be handled on server side, only for debug and when issues
-        return '/api/assets/cached?url=' + url + (size ? `&size=${size}` : '') + (format ? `&format=${format}` : '');
-    }
+	getThumbAngles(product: any, options: any = {}) {
+		let angles = options.angle ? [options.angle] : ['thumb'];
 
-    getThumbAngles(product: any, options: any = {}) {
-        let angles = options.angle ? [options.angle] : ['thumb'];
+		const mixCode = product.targetGroupId
+			? this.dx.maps['targetGroup'][product.targetGroupId]?.mixCode
+			: '-';
 
-        const mixCode = product.targetGroupId ? this.dx.maps['targetGroup'][product.targetGroupId]?.mixCode : '-';
+		// console.log(product.code, product.targetGroupId ,mixCode);
 
-        // console.log(product.code, product.targetGroupId ,mixCode);
+		switch (mixCode) {
+			case 'sra':
+				angles.push('main');
+				break;
 
-        switch (mixCode) {
-            case 'sra':
-                angles.push('main');
-                break;
+			case 'bags':
+			case 'vm':
+				angles.push('front');
+				break;
 
-            case 'bags':
-            case 'vm':
-                angles.push('front');
-                break;
+			default:
+				angles.push('outside');
+		}
 
-            default:
-                angles.push('outside');
-        }
+		angles.push('main');
 
-        angles.push('main');
+		return angles;
+	}
 
-        return angles;
-    }
+	getThumbEx(product: any, options: any = {}) {
+		// Remove inactive
+		const assets = product?.assets?.filter((a: any) => a.isActive);
 
+		if (assets && assets.length) {
+			// Create angles hierarchy
+			const angles = this.getThumbAngles(product, options);
 
-    getThumbEx(product: any, options: any = {}) {
-        // Remove inactive
-        const assets = product?.assets?.filter((a: any) => a.isActive);
+			// Check if we have one of the angles
 
-        if (assets && assets.length) {
-            // Create angles hierarchy
-            const angles = this.getThumbAngles(product, options);
+			for (const angle of angles) {
+				// If we have `thumb` we assume it's prepared and that's what we need
+				let asset = assets.find(
+					(x: any) => x.angle == angle && !x.quality,
+				);
+				if (asset)
+					return this.getCachedUrl(
+						asset,
+						options.size ?? 512,
+						options.format ?? 'png',
+					);
 
-            // Check if we have one of the angles
+				asset = assets.find((x: any) => x.angle == angle);
+				if (asset)
+					return this.getCachedUrl(
+						asset,
+						options.size ?? 512,
+						options.format ?? 'png',
+					);
+			}
 
-            for (const angle of angles) {
-                // If we have `thumb` we assume it's prepared and that's what we need
-                let asset = assets.find((x: any) => x.angle == angle && !x.quality);
-                if (asset) return this.getCachedUrl(asset, options.size ?? 512, options.format ?? 'png');
+			// Return just any?
 
-                asset = assets.find((x: any) => x.angle == angle);
-                if (asset) return this.getCachedUrl(asset, options.size ?? 512, options.format ?? 'png');
-            }
+			if (!options.noEmpty) {
+				if (assets[0])
+					return this.getCachedUrl(
+						assets[0],
+						options.size ?? 512,
+						options.format ?? 'png',
+					);
+			}
+		}
 
-            // Return just any?
+		// TODO refactor Placeholders for only if it's product
+		// if (false && (product.placeholder || product.placeholderId)) {
+		//     const id = product.placeholder ? product.placeholder.id : product.placeholderId;
+		//     return this.dx.maps['productPlaceholder'][id].thumb;
+		// }
 
-            if (!options.noEmpty) {
-                if (assets[0]) return this.getCachedUrl(assets[0], options.size ?? 512, options.format ?? 'png');
-            }
-        }
+		return this.getNoPhotoThumb(product); // TODO make generic
+	}
 
-        // TODO refactor Placeholders for only if it's product
-        // if (false && (product.placeholder || product.placeholderId)) {
-        //     const id = product.placeholder ? product.placeholder.id : product.placeholderId;
-        //     return this.dx.maps['productPlaceholder'][id].thumb;
-        // }
+	getNoPhotoThumb(product?: any) {
+		const mixCode = product?.targetGroupId
+			? this.dx.maps['targetGroup'][product.targetGroupId]?.mixCode
+			: '-';
 
-        return this.getNoPhotoThumb(product); // TODO make generic
-    }
+		// TODO use images assigned to targetGroups
 
-    getNoPhotoThumb(product?: any) {
-        const mixCode = product?.targetGroupId ? this.dx.maps['targetGroup'][product.targetGroupId]?.mixCode : '-';
+		switch (mixCode) {
+			case 'bags':
+			case 'slg':
+				return `https://ile-cp.s3.eu-central-1.amazonaws.com/cp/products/nophoto/elu.png`;
 
-        // TODO use images assigned to targetGroups
-
-        switch (mixCode) {
-            case 'bags':
-            case 'slg':
-                return `https://ile-cp.s3.eu-central-1.amazonaws.com/cp/products/nophoto/elu.png`;
-
-            case 'sra':
-            default:
-                return `https://ile-cp.s3.eu-central-1.amazonaws.com/cp/products/nophoto/${environment.prefix}.png`;
-        }
-    }
+			case 'sra':
+			default:
+				return `https://ile-cp.s3.eu-central-1.amazonaws.com/cp/products/nophoto/${environment.prefix}.png`;
+		}
+	}
 }

@@ -1,0 +1,295 @@
+.calendar {
+	padding: 0 0 5rem;
+}
+
+.styled-scrollbar {
+	overflow: scroll;
+	height: calc(100vh - 60px - var(--calendar-toolbar-height));
+}
+
+.calendar-toolbar {
+	display: flex;
+	left: 0.5rem;
+	padding: 0 1rem;
+}
+
+.calendar-header {
+	padding-top: 1rem;
+	margin-left: calc(var(--calendar-activities-header-width) + 14px);
+
+	&.sticky {
+		position: sticky;
+		left: 0;
+		right: 0;
+		background: white;
+		z-index: 11 * 52 + 10;
+		transition: top 0.4s;
+	}
+}
+
+.calendar-header-months {
+	line-height: 2;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.calendar-header-month {
+	position: sticky;
+	left: 0;
+	height: auto;
+	text-align: center;
+	background: white;
+}
+
+.calendar-header-month,
+.calendar-header-season {
+	font-size: 1.5rem;
+}
+
+.calendar-header-weeks {
+	flex-flow: nowrap;
+	line-height: 3;
+	font-weight: bold;
+	font-size: 0.8rem;
+}
+
+.calendar-header-week {
+	text-align: center;
+}
+
+month-length {
+	height: 2px;
+	background: black;
+}
+
+.calendar-header-month-length {
+	display: flex;
+	gap: 0.4rem;
+	flex-wrap: nowrap;
+}
+
+.calendar-activities-header {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-self: flex-start;
+	padding: 0 1rem 0 0;
+	max-width: 8rem;
+
+	line-height: 1.2;
+	font-size: 0.8rem;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-align: right;
+	z-index: 11 * 52 + 8;
+
+	&.sticky {
+		position: sticky;
+		left: 0;
+	}
+}
+
+.horizontal-sticky {
+	position: sticky;
+	left: 0;
+}
+
+.vertical-sticky {
+	position: sticky;
+	top: 0;
+}
+
+.calendar-activity-header {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	// height: 100%;
+	background-color: white;
+	transition: var(--calendar-height-transition);
+
+	&:before {
+		content: "";
+		position: absolute;
+		left: -2px;
+		width: 2px;
+		height: 100%;
+		background: white;
+		z-index: -1;
+	}
+
+	span {
+		padding: 0 0.5rem;
+	}
+}
+
+.calendar-body {
+	align-items: flex-start;
+	margin: 0.5rem 1px 0;
+	height: 100%;
+
+	&.dragging {
+		cursor: grabbing;
+	}
+}
+
+.week-size-col {
+	transition: none; // min-width 1s;
+}
+
+.calendar-header-season {
+	display: flex;
+	justify-content: center;
+	font-weight: bold;
+	font-style: italic;
+	text-transform: uppercase;
+	color: var(--season-text-color);
+	background-color: white;
+
+	&:not(:last-child) {
+		&:after {
+			content: "";
+			position: absolute;
+			right: 0;
+			width: 2px;
+			height: 100%;
+			background: var(--season-text-color);
+		}
+	}
+}
+
+.flex-with-gap {
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+}
+
+.dragging {
+	div,
+	span,
+	a,
+	img,
+	button,
+	p {
+		user-select: none;
+	}
+}
+
+.calendar-placeholder {
+	display: flex;
+	flex-direction: column;
+	row-gap: 0.25rem;
+	box-shadow: 0 1px 0 0;
+	transition: var(--calendar-height-transition);
+
+	&.empty {
+		position: relative;
+		cursor: pointer;
+
+		&:after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			transition: background-color 0.4s;
+			background: transparent;
+			pointer-events: none;
+		}
+
+		&:hover:after {
+			background-color: rgba(51, 51, 51, 0.06);
+		}
+	}
+
+	.activity-name {
+		font-size: 1rem;
+	}
+}
+
+.calendar-activity-list {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	row-gap: 0.25rem;
+
+	.can-manage & {
+		pointer-events: none;
+	}
+
+	.can-manage & > commercial-calendar-activity {
+		pointer-events: auto;
+	}
+}
+
+.calendar-activity {
+	position: relative;
+	flex-direction: column;
+	width: 100%;
+	background-color: white;
+
+	&:after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 1;
+		pointer-events: none;
+	}
+
+	&[style*="border-color"] {
+		&:after {
+			border-color: attr(data-border-color);
+			border-width: 3px;
+			border-style: dashed;
+		}
+	}
+
+	&:not(.custom-style) {
+		&:after {
+			border: 3px dashed #bfbfbf;
+		}
+	}
+
+	.activity-tagline,
+	.activity-name {
+		margin-bottom: 0.2rem;
+	}
+
+	&.no-products {
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+
+		.activity-name {
+			display: flex;
+			align-items: center;
+			font-size: 0.8rem;
+		}
+	}
+}
+
+.calendar-activity-group {
+	box-shadow: inset 2px 0 0 0 rgba(51, 51, 51, 0.06);
+}
+
+.has-activity {
+	position: relative;
+	z-index: calc(11 * 52);
+	isolation: isolate;
+}
+
+.create-activity-placeholder {
+	cursor: pointer;
+}
+
+.calendar-undetermined-element {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	background-color: rgba(51, 51, 51, 0.06);
+	z-index: 11 * 52 + 9;
+}
