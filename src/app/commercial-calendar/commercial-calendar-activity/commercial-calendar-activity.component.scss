@@ -55,3 +55,12 @@
 ::selection {
 	background: black;
 }
+
+
+button {
+	&,
+	&:hover,
+	&:focus {
+		color: inherit;
+	}
+}

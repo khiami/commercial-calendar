@@ -632,3 +632,12 @@ export function getDomAttributeInteger(element: any, attribute: any): number {
 export function withinRange(x: number, min: number, max: number): boolean {
     return x >= min && x <= max;
 }
+
+
+export function getDTValue(dt: DataTransfer, type: string = 'text/plain'): any {
+	try {
+		return JSON.parse(dt.getData(type));
+	} catch(e) {
+		return null;
+	}
+}

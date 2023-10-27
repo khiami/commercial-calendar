@@ -1,9 +1,11 @@
 import {
 	AfterViewInit,
+	ChangeDetectionStrategy,
 	ChangeDetectorRef,
 	Component,
 	ElementRef,
 	HostListener,
+	Input,
 	OnDestroy,
 	OnInit,
 	QueryList,
@@ -28,15 +30,17 @@ import { orderBy } from '@progress/kendo-data-query';
 import { CommercialCalendarActivityComponent } from './commercial-calendar-activity/commercial-calendar-activity.component';
 import { CssVarService } from '../services/css-var.service';
 import { LocalStorageService } from '../services/local-storage.service';
-import { cap, generateRandomText, getDateOfIsoWeek, getInteger, isNil, ngForTrackByFn, readVerticalOverlapFor, triggerWindowResize } from '../helpers';
+import { cap, generateRandomText, getDTValue, getDateOfIsoWeek, getInteger, isNil, ngForTrackByFn, readVerticalOverlapFor, triggerWindowResize } from '../helpers';
 import { CommercialCalendarActivityService } from '../data/commercial-calendar-activity/commercial-calendar-activity.service';
 import { HttpClient } from '@angular/common/http';
+import { CommercialCalendarActivityType } from '../data/commercial-calendar-activity-type/commercial-calendar-activity-type.model';
 
 @UntilDestroy()
 @Component({
 	selector: 'commercial-calendar',
 	templateUrl: './commercial-calendar.component.html',
 	styleUrls: ['./commercial-calendar.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CommercialCalendarComponent
 	implements OnInit, AfterViewInit, OnDestroy {
@@ -47,7 +51,7 @@ export class CommercialCalendarComponent
 
 	public months: string[] = [];
 
-	public startAtWeek: number = 1;
+	public startAtWeek: number = 0;
 	public startAtMonth: number = 0;
 	public trackByIndex: any = ngForTrackByFn();
 
@@ -64,8 +68,9 @@ export class CommercialCalendarComponent
 	public isAdmin: boolean = true;
 	public canClone: boolean = true;
 	public dragging: boolean = false;
-	public showScrollbars: boolean = false;
+	public showScrollbars: boolean = true;
 	public stickyTypes: boolean = false;
+	@Input() public draggable: boolean = true;
 
 	private destroy$: Subject<void>;
 	private domElements: any[] = [];
@@ -91,9 +96,7 @@ export class CommercialCalendarComponent
 			this.storage.get('calendar-zoom-level'),
 			this.zoomLevel,
 		);
-		this.showScrollbars = true;
-		this.stickyTypes = false;
-		this.startAtWeek = 1;
+		this.startAtWeek = 27;
 
 		this.calendarId = +this.route.snapshot.params['id'];
 		await this.onLoadData();
@@ -381,5 +384,37 @@ export class CommercialCalendarComponent
 
 	private setCalendarYear() {
 		return 2023;
+	}
+
+	public onDrag(event: any, item: CommercialCalendarActivity, counter: number) {
+		let dragEvent: DragEvent = event;
+		dragEvent.dataTransfer?.setData('text/plain', JSON.stringify(item));
+		this.dragging = true;
+		// console.clear();
+		// console.log('onDrag ', event, item, counter);
+	}
+
+	public onDrop(event: any, weekIndex: number, type?: any, action?: string) {
+		event.preventDefault();
+		if (action == 'drop') {
+			this.dragging = false;
+			console.log('dropped ', event, weekIndex, type?.id, action);
+			this.updateActivity(getDTValue(event.dataTransfer), weekIndex, type);
+		}
+	}
+
+	private updateActivity(item: CommercialCalendarActivity, weekIdx: number, type: CommercialCalendarActivityType) {
+		const diff = weekIdx - (item?.startWeek??0);
+		if (diff != 0) {
+			if (item.startWeek) item.startWeek += diff;
+			if (item.endWeek) item.endWeek += diff;
+	
+			item.activityTypeId = type.id;
+	
+			// console.log('updated item ', item);
+	
+			this.activities = [...this.activities.filter(a=> a.id != item.id), item];
+			this.zoomChanged(this.zoomLevel, {forceUpdate: true});
+		}
 	}
 }

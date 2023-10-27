@@ -5,7 +5,6 @@ import {
 	Input,
 	OnInit,
 } from '@angular/core';
-import { Debounce } from 'lodash-decorators';
 import { CssVarService } from '../services/css-var.service';
 import { getCssInt, ratioCalculator } from '../helpers';
 
@@ -88,7 +87,6 @@ export class CssVarDirective implements OnInit {
 		return value;
 	}
 
-	@Debounce(16)
 	@HostListener('window:resize')
 	private onResize(): void {
 		if (this.valid) this.measureVar();

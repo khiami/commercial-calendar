@@ -64,7 +64,7 @@
     
             <!--  Vertical header (Sticky) -->
             <div [class.sticky]="stickyTypes" class="calendar-activities-header flex-with-gap" css-var="calendar-activities-header-width:get:width">
-                <div    [style.height.px]="heights[type.id + '']??colSize" *ngFor="let type of calendar?.types; trackBy trackByIndex; index as index" class="calendar-activity-header vertical-sticky"
+                <div    [style.height.px]="heights[type.id + ''] || colSize" *ngFor="let type of calendar?.types; trackBy trackByIndex; index as index" class="calendar-activity-header vertical-sticky"
                         [style.min-height.px]="colSize"
                 >
                     <span>{{ type.name }}</span>
@@ -75,19 +75,23 @@
             <ng-container *ngFor="let week of [].constructor(weeks); index as weekIdx">
                 <ng-container *ngIf="weekIdx >= startAtWeek">
                     <div [style.min-width.px]="colSize" class="calendar-activity-group week-size-col col p-0">
-                        <div class="calendar-placeholders flex-with-gap">
+                        <div    class="calendar-placeholders flex-with-gap"
+                        >
                             <ng-container   *ngFor="let type of calendar?.types; trackBy trackByIndex; index as typeIdx">
                                 <ng-container *ngIf="(activities!|findxv2:[{key:'startWeek',value:weekIdx+1},{key:'activityTypeId',value:type.id}]:true) as items">
     
                                     <div    [class.empty]="!items.length" class="calendar-placeholder" #placeholder
                                             [class.has-activity]="items.length"
-                                            [style.height.px]="heights[type.id + '']??colSize"
+                                            [style.height.px]="heights[type.id + ''] || colSize"
                                             [style.min-height.px]="colSize"
                                             [attr.data-type-id]="type.id"
                                             [attr.data-week]="weekIdx+1"
+                                            (drop)="onDrop($event, weekIdx+1, type, 'drop')"
+                                            (dragover)="onDrop($event, weekIdx+1, type, 'dragover')"
                                     >
                                         <div *ngIf="items?.length;" class="calendar-activity-list">
                                             <commercial-calendar-activity   [activity]="item" class="calendar-activity activity-{{item.id}}" *ngFor="let item of items; trackBy trackByIndex" #items
+                                                                            [id]="item.id"
                                                                             [overlapWith]="activities"
                                                                             [rowGap]="rowGap"
                                                                             [isAdmin]="isAdmin"
@@ -100,9 +104,9 @@
                                                                             [style.background-color]="item.fillColor"
                                                                             [class.custom-style]="item.fillColor?.length"
                                                                             [class.no-products]="!item.products?.length"
-                                                                            
-                                                                            [id]="item.id"
+                                                                            [class.draggable]="true"
                                                                             [draggable]="true"
+                                                                            (dragstart)="onDrag($event, item, 4)"
                                                                             (onClick)="onActivityClick($event)"
                                                                             (onEdit)="onUpsertActivity(item)"
                                                                             (onDelete)="onDeleteActivity(item)"

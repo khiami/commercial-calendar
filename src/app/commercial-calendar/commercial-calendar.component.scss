@@ -1,10 +1,12 @@
+
+
 .calendar {
 	padding: 0 0 5rem;
 }
 
 .styled-scrollbar {
 	overflow: scroll;
-	height: calc(100vh - 60px - var(--calendar-toolbar-height));
+	height: calc(100vh - var(--calendar-toolbar-height));
 }
 
 .calendar-toolbar {
@@ -129,6 +131,14 @@ month-length {
 
 	&.dragging {
 		cursor: grabbing;
+	}
+}
+
+.draggable {
+	:active {
+		cursor: grabbing;
+		cursor: -moz-grabbing;
+		cursor: -webkit-grabbing;
 	}
 }
 
