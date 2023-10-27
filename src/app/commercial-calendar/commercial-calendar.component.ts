@@ -386,19 +386,29 @@ export class CommercialCalendarComponent
 		return 2023;
 	}
 
+	public onMouseDown(e: MouseEvent) {
+		// console.log('onMouseDown ', e.target);
+		this.targetWhenMouseDown = e.target;
+	}
+
+	private targetWhenMouseDown?: any;
+
 	public onDrag(event: any, item: CommercialCalendarActivity, counter: number) {
-		let dragEvent: DragEvent = event;
-		dragEvent.dataTransfer?.setData('text/plain', JSON.stringify(item));
-		this.dragging = true;
-		// console.clear();
-		// console.log('onDrag ', event, item, counter);
+
+		if (this.targetWhenMouseDown.contains(event.target)) {
+			let dragEvent: DragEvent = event;
+			dragEvent.dataTransfer?.setData('text/plain', JSON.stringify(item));
+			this.dragging = true;
+		} else {
+			event.preventDefault();
+		}
 	}
 
 	public onDrop(event: any, weekIndex: number, type?: any, action?: string) {
 		event.preventDefault();
 		if (action == 'drop') {
 			this.dragging = false;
-			console.log('dropped ', event, weekIndex, type?.id, action);
+			// console.log('dropped ', event, weekIndex, type?.id, action);
 			this.updateActivity(getDTValue(event.dataTransfer), weekIndex, type);
 		}
 	}
@@ -416,5 +426,9 @@ export class CommercialCalendarComponent
 			this.activities = [...this.activities.filter(a=> a.id != item.id), item];
 			this.zoomChanged(this.zoomLevel, {forceUpdate: true});
 		}
+	}
+
+	public onActivityResize(event: any, item: CommercialCalendarActivity) {
+		console.log('onActivityResize ', event);
 	}
 }

@@ -104,12 +104,16 @@
                                                                             [style.background-color]="item.fillColor"
                                                                             [class.custom-style]="item.fillColor?.length"
                                                                             [class.no-products]="!item.products?.length"
-                                                                            [class.draggable]="true"
-                                                                            [draggable]="true"
+                                                                            [class.draggable]="draggable"
+                                                                            [draggable]="draggable"
                                                                             (dragstart)="onDrag($event, item, 4)"
                                                                             (onClick)="onActivityClick($event)"
                                                                             (onEdit)="onUpsertActivity(item)"
                                                                             (onDelete)="onDeleteActivity(item)"
+                                                                            [resize]="true"
+                                                                            [resizeDirection]="'horizontal'"
+                                                                            (mousedown)="onMouseDown($event)"
+                                                                            (onResize)="onActivityResize($event, item)"
                                             >
                                             </commercial-calendar-activity>
                                         </div>

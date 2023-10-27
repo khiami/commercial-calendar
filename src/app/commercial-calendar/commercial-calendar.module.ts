@@ -25,6 +25,7 @@ import { FindXPipe } from '../pipes/find-x.pipe';
 import { Findxv2Pipe } from '../pipes/findxv2.pipe';
 import { SafePipe } from '../pipes/safe.pipe';
 import { CssVarDirective } from '../directives/css-var.directive';
+import { ResizeElementDirective } from './directives/resize-element.directive';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { CssVarDirective } from '../directives/css-var.directive';
 		FindXPipe,
 		Findxv2Pipe,
 		SafePipe,
-		CssVarDirective
+		CssVarDirective,
+		ResizeElementDirective,
 	],
 	imports: [
 		CommonModule,
@@ -62,4 +64,4 @@ import { CssVarDirective } from '../directives/css-var.directive';
 		// DropDownsModule,
 	],
 })
-export class CommercialCalendarModule {}
+export class CommercialCalendarModule { }
